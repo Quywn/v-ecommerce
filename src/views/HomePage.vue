@@ -5,8 +5,7 @@
       <v-img src="@/assets/logo.png" alt="Logo" class="logo" contain></v-img>
 
       <!-- Navigation Menu -->
-      <v-spacer></v-spacer>
-      <div class="d-none d-md-flex">
+      <div class="d-none d-md-flex justify-center flex-grow-1">
         <v-btn text @click="goToPage('home')">Trang chủ</v-btn>
         <v-btn text @click="goToPage('about')">Giới thiệu</v-btn>
         <v-btn text @click="goToPage('products')">Sản phẩm</v-btn>
@@ -24,9 +23,12 @@
           <!-- Giỏ hàng với số lượng -->
         </v-btn>
       </div>
-
       <!-- Mobile Menu Button -->
-      <v-menu v-model="menuOpen" transition="slide-x-reverse-transition">
+      <v-menu
+        v-model="menuOpen"
+        transition="slide-x-reverse-transition"
+        class="d-md-none"
+      >
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on">
             <v-icon>mdi-menu</v-icon>

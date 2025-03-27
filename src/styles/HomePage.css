@@ -15,10 +15,6 @@
     width: 100%;
 }
 @media (max-width: 600px) {
-    .logo {
-        height: 40px;
-    }
-
     .d-none {
         display: none !important;
     }
