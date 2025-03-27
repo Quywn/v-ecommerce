@@ -1,44 +1,96 @@
 <template>
   <v-app>
-    <header-component />
+    <!-- Header -->
+    <v-toolbar app>
+      <v-toolbar-title>
+        <img src="@/assets/logo.png" alt="Logo" height="40" />
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <!-- Navigation Menu -->
+      <v-btn text>Trang chủ</v-btn>
+      <v-btn text>Sản phẩm</v-btn>
+      <v-btn text>Liên hệ</v-btn>
+      <!-- Search Icon -->
+      <v-icon>mdi-magnify</v-icon>
+      <!-- Cart Icon -->
+      <v-btn icon>
+        <v-icon>mdi-cart</v-icon>
+      </v-btn>
+    </v-toolbar>
 
+    <!-- Banner -->
+    <v-img src="@/assets/banner.png" alt="Banner" height="auto" contain>
+      <v-row class="fill-height" align="center" justify="center"> </v-row>
+    </v-img>
+
+    <!-- Favorite Products Section -->
     <v-container>
-      <!-- Banner -->
-      <v-img src="@/assets/banner.png" height="400px" class="my-4" />
-
-      <!-- Product Carousel -->
-      <product-carousel :products="products" />
+      <v-row>
+        <v-col
+          v-for="product in favoriteProducts"
+          :key="product.id"
+          cols="12"
+          md="4"
+        >
+          <v-card>
+            <v-img :src="product.image" height="200px"></v-img>
+            <v-card-title>{{ product.name }}</v-card-title>
+            <v-card-subtitle>{{ product.price | currency }}</v-card-subtitle>
+            <v-card-actions>
+              <v-btn color="primary">Thêm vào giỏ</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
     </v-container>
 
-    <footer-component />
+    <!-- Footer -->
+    <v-footer padless>
+      <v-container>
+        <div class="footer-container">
+          <!-- Footer Section 1: Giới thiệu -->
+          <div class="footer-section">
+            <h3>Giới thiệu</h3>
+            <p>
+              Chúng tôi chuyên cung cấp các loại bánh ngọt, bánh mặn tươi ngon,
+              được làm từ nguyên liệu chất lượng cao.
+            </p>
+          </div>
+
+          <!-- Footer Section 2: Thông tin liên hệ -->
+          <div class="footer-section">
+            <h3>Thông tin liên hệ</h3>
+            <p>Địa chỉ: #address</p>
+            <p>Điện thoại: 0xx.xxx.xxx</p>
+            <p>Email: lienhe@banhngon.com</p>
+          </div>
+
+          <!-- Footer Section 3: Shop Online -->
+          <div class="footer-section">
+            <h3>Shop Online - Truy cập</h3>
+            <ul>
+              <li>
+                <a href="https://www.facebook.com/quyencake" target="_blank">
+                  <i class="fab fa-facebook-f"></i> Facebook
+                </a>
+              </li>
+              <li>
+                <a href="https://shopee.vn/quyencake" target="_blank">
+                  <i class="fab fa-shopify"></i> Shopee
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+          <p>&copy; 2025 Cửa hàng Bánh Online - Hotline: 0xx.xxx.xxx</p>
+        </div>
+      </v-container>
+    </v-footer>
   </v-app>
 </template>
 
-<script>
-import HeaderComponent from "@/components/Header.vue";
-import ProductCarousel from "@/components/ProductCarousel.vue";
-import FooterComponent from "@/components/Footer.vue";
-
-export default {
-  name: "HomePage",
-  components: {
-    HeaderComponent,
-    ProductCarousel,
-    FooterComponent,
-  },
-  data() {
-    return {
-      products: [
-        { id: 1, name: "Product 1", price: 100, image: "/path/to/image1.jpg" },
-        { id: 2, name: "Product 2", price: 200, image: "/path/to/image2.jpg" },
-        { id: 3, name: "Product 3", price: 300, image: "/path/to/image3.jpg" },
-        { id: 4, name: "Product 4", price: 400, image: "/path/to/image4.jpg" },
-        { id: 5, name: "Product 5", price: 500, image: "/path/to/image5.jpg" },
-        { id: 6, name: "Product 6", price: 600, image: "/path/to/image6.jpg" },
-        { id: 7, name: "Product 7", price: 700, image: "/path/to/image7.jpg" },
-        { id: 8, name: "Product 8", price: 800, image: "/path/to/image8.jpg" },
-      ],
-    };
-  },
-};
-</script>
+<script src="@/scripts/HomePage.ts"></script>
+<style scoped src="@/styles/HomePage.css"></style>
