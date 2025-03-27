@@ -1,26 +1,23 @@
-export default {
-  data() {
-    return {
-      favoriteProducts: [
-        {
-          id: 1,
-          name: "Sản phẩm 1",
-          price: 100000,
-          image: "https://via.placeholder.com/200",
-        },
-        {
-          id: 2,
-          name: "Sản phẩm 2",
-          price: 150000,
-          image: "https://via.placeholder.com/200",
-        },
-        {
-          id: 3,
-          name: "Sản phẩm 3",
-          price: 200000,
-          image: "https://via.placeholder.com/200",
-        },
-      ],
-    };
-  },
-};
+import { ref } from "vue";
+
+export default function useHeader() {
+  const menuOpen = ref(false);
+  const searchDialog = ref(false);
+  const searchQuery = ref("");
+
+  const toggleSearch = () => {
+    searchDialog.value = !searchDialog.value;
+  };
+
+  const toggleCart = () => {
+    console.log("Cart clicked");
+  };
+
+  return {
+    menuOpen,
+    searchDialog,
+    searchQuery,
+    toggleSearch,
+    toggleCart,
+  };
+}

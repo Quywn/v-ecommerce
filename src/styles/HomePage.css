@@ -1,14 +1,34 @@
-/* Tool Bar*/
-.v-toolbar {
-    background-color: #333 !important;
+.v-app-bar .logo {
+    max-width: 200px;
 }
 
-.v-toolbar .v-btn,
-.v-toolbar .v-icon,
-.v-toolbar-title {
-    color: white !important;
+.v-spacer {
+    flex: 1;
 }
 
+.v-btn {
+    font-size: 18px;
+    font-weight: 600;
+}
+.v-menu {
+    display: block;
+    width: 100%;
+}
+@media (max-width: 600px) {
+    .logo {
+        height: 40px;
+    }
+
+    .d-none {
+        display: none !important;
+    }
+
+    .v-menu {
+        display: block;
+        width: 100%;
+    }
+
+}
 /* Footer Sections */
 footer {
     background-color: #333 !important;
