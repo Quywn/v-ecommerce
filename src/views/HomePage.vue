@@ -62,13 +62,36 @@
       </v-card>
     </v-dialog>
 
+    <!-- Banner -->
+    <v-carousel
+      cycle
+      hide-delimiters
+      show-arrows
+      interval="3000"
+      height="auto"
+      class="full-height"
+    >
+      <!-- Banner 1 -->
+      <v-carousel-item>
+        <v-img
+          src="@/assets/banner1.png"
+          alt="Banner 1"
+          class="custom-banner"
+        ></v-img>
+      </v-carousel-item>
+
+      <!-- Banner 2 -->
+      <v-carousel-item>
+        <v-img
+          src="@/assets/banner2.png"
+          alt="Banner 2"
+          class="custom-banner"
+        ></v-img>
+      </v-carousel-item>
+    </v-carousel>
+
     <v-main>
       <v-container>
-        <!-- Banner -->
-        <v-img src="@/assets/banner.png" alt="Banner" height="auto" contain>
-          <v-row class="fill-height" align="center" justify="center"> </v-row>
-        </v-img>
-
         <!-- Favorite Products Section -->
         <v-container>
           <v-row>
