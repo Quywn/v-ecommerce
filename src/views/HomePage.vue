@@ -67,11 +67,11 @@
       cycle
       hide-delimiters
       show-arrows
-      interval="3000"
+      interval="5000"
       height="auto"
       class="full-height"
     >
-      <!-- Banner 1 -->
+      <!-- Banner 1 -->S
       <v-carousel-item>
         <v-img
           src="@/assets/banner1.png"
@@ -85,6 +85,15 @@
         <v-img
           src="@/assets/banner2.png"
           alt="Banner 2"
+          class="custom-banner"
+        ></v-img>
+      </v-carousel-item>
+
+      <!-- Banner 3 -->
+      <v-carousel-item>
+        <v-img
+          src="@/assets/banner3.gif"
+          alt="Banner 3"
           class="custom-banner"
         ></v-img>
       </v-carousel-item>
@@ -116,7 +125,7 @@
         </v-container>
       </v-container>
     </v-main>
-    <!-- Footer -->
+    <!-- Footer -->t
     <v-footer padless>
       <v-container>
         <div class="footer-container">

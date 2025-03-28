@@ -1,3 +1,7 @@
+.v-app-bar {
+    background-color: #f3a851 !important;
+}
+
 .v-app-bar .logo {
     max-width: 200px;
 }
@@ -55,7 +59,7 @@
     }
 }
 
- /*Banner Sections */
+/* Banner Sections */
 .custom-banner {
     position: relative;
     width: 100%;
