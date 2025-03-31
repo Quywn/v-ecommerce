@@ -8,30 +8,23 @@ export default new Vuetify({
   theme: {
     themes: {
       light: {
-        // Cấu hình màu cho theme sáng (light theme)
-        primary: "#333", // Màu chính
-        secondary: "#333", // Màu phụ
-        accent: "#333", // Màu nhấn
-        error: "#333", // Màu lỗi
-        info: "#333", // Màu thông tin
-        success: "#333", // Màu thành công
-        warning: "#333", // Màu cảnh báo
-        background: "#333",
+        primary: "#f3a851",
+        secondary: "#ffa726",
+        accent: "#82b1ff",
+        error: "#e53935",
+        info: "#0288d1",
+        success: "#4caf50",
+        warning: "#ff9800",
       },
       dark: {
-        // Cấu hình màu cho theme tối (dark theme)
         primary: "#333",
-        secondary: "#333",
-        accent: "#333",
-        error: "#333",
-        info: "#333",
-        success: "#333",
-        warning: "#333",
-        background: "#333",
+        secondary: "#ff7043",
+        accent: "#8e24aa",
+        error: "#ff5252",
+        info: "#0288d1",
+        success: "#4caf50",
+        warning: "#ff9800",
       },
     },
-  },
-  typography: {
-    fontFamily: "Roboto",
   },
 });

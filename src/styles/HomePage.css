@@ -1,22 +1,10 @@
-.v-app-bar {
-    background-color: #f3a851 !important;
-}
-
 .v-app-bar .logo {
     max-width: 200px;
-}
-
-.v-spacer {
-    flex: 1;
 }
 
 .v-btn {
     font-size: 18px;
     font-weight: 600;
-}
-.v-menu {
-    display: block;
-    width: 100%;
 }
 
 /* For small windows */
@@ -25,17 +13,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-    }
-
-
-    /* Hide cart-icon, search-icon */
-    .d-flex.justify-end {
-        display: none !important;
-    }
-
-    /* show hamburger menu */
-    .d-md-none {
-        display: block;
     }
 
     .d-none.d-md-flex {
@@ -52,10 +29,6 @@
 
     .d-flex.justify-end {
         display: flex;
-    }
-
-    .d-md-none {
-        display: none;
     }
 }
 

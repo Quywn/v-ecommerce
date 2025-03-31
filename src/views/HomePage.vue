@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app dense>
+    <v-app-bar color="primary" app dense>
       <!-- Logo -->
       <v-img src="@/assets/logo.png" alt="Logo" class="logo" contain></v-img>
 
@@ -12,25 +12,26 @@
         <v-btn text @click="goToPage('contact')">Liên hệ</v-btn>
       </div>
       <!-- Search and Cart icons -->
-      <div class="d-flex justify-end">
-        <v-btn icon @click="toggleSearch">
-          <v-icon>mdi-magnify</v-icon>
-        </v-btn>
+      <v-btn icon @click="toggleSearch">
+        <v-icon>mdi-magnify</v-icon>
+      </v-btn>
 
-        <v-btn icon @click="toggleCart">
-          <v-icon>mdi-cart</v-icon>
-          <v-badge color="red" content="3" overlap></v-badge>
-          <!-- Giỏ hàng với số lượng -->
-        </v-btn>
-      </div>
+      <v-btn icon @click="toggleCart">
+        <v-icon>mdi-cart</v-icon>
+        <v-badge color="red" content="3" overlap></v-badge>
+      </v-btn>
+
+      <v-btn icon @click="goToLogin">
+        <v-icon>mdi-account</v-icon>
+      </v-btn>
       <!-- Mobile Menu Button -->
       <v-menu
-        v-model="menuOpen"
-        transition="slide-x-reverse-transition"
-        class="d-md-none"
+        v-model="menuVisible"
+        :close-on-content-click="false"
+        v-if="$vuetify.breakpoint.xs"
       >
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on">
+        <template v-slot:activator="{ on }">
+          <v-btn icon v-on="on">
             <v-icon>mdi-menu</v-icon>
           </v-btn>
         </template>
@@ -71,7 +72,7 @@
       height="auto"
       class="full-height"
     >
-      <!-- Banner 1 -->S
+      <!-- Banner 1 -->
       <v-carousel-item>
         <v-img
           src="@/assets/banner1.png"
@@ -125,51 +126,11 @@
         </v-container>
       </v-container>
     </v-main>
-    <!-- Footer -->t
-    <v-footer padless>
-      <v-container>
-        <div class="footer-container">
-          <!-- Footer Section 1: Giới thiệu -->
-          <div class="footer-section">
-            <h3>Giới thiệu</h3>
-            <p>
-              Chúng tôi chuyên cung cấp các loại bánh ngọt, bánh mặn tươi ngon,
-              được làm từ nguyên liệu chất lượng cao.
-            </p>
-          </div>
 
-          <!-- Footer Section 2: Thông tin liên hệ -->
-          <div class="footer-section">
-            <h3>Thông tin liên hệ</h3>
-            <p>Địa chỉ: #address</p>
-            <p>Điện thoại: 0xx.xxx.xxx</p>
-            <p>Email: lienhe@banhngon.com</p>
-          </div>
+    <v-btn @click="toggleTheme"> Chuyển đổi theme </v-btn>
 
-          <!-- Footer Section 3: Shop Online -->
-          <div class="footer-section">
-            <h3>Shop Online - Truy cập</h3>
-            <ul>
-              <li>
-                <a href="https://www.facebook.com/quyencake" target="_blank">
-                  <i class="fab fa-facebook-f"></i> Facebook
-                </a>
-              </li>
-              <li>
-                <a href="https://shopee.vn/quyencake" target="_blank">
-                  <i class="fab fa-shopify"></i> Shopee
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Footer Bottom -->
-        <div class="footer-bottom">
-          <p>&copy; 2025 Cửa hàng Bánh Online - Hotline: 0xx.xxx.xxx</p>
-        </div>
-      </v-container>
-    </v-footer>
+    <!-- Footer -->
+    <FooterComponent></FooterComponent>
   </v-app>
 </template>
 
@@ -177,8 +138,12 @@
 <script>
 import { defineComponent } from "vue";
 import useHeader from "@/scripts/HomePage.ts";
+import FooterComponent from "@/components/FooterComponent.vue";
 
 export default defineComponent({
+  components: {
+    FooterComponent,
+  },
   setup() {
     const { menuOpen, searchDialog, searchQuery, toggleSearch, toggleCart } =
       useHeader();
@@ -191,6 +156,16 @@ export default defineComponent({
       toggleCart,
     };
   },
+  methods: {
+    goToLogin() {
+      this.$router.push({ name: "login" });
+    },
+    toggleTheme() {
+      this.isDark = !this.isDark;
+      this.$vuetify.theme.dark = this.isDark;
+    },
+  },
+  menuVisible: false,
 });
 </script>
 <style scoped src="@/styles/HomePage.css"></style>
