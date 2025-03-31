@@ -62,4 +62,20 @@ export default {
   text-align: center;
   padding-top: 1rem;
 }
+
+@media (max-width: 768px) {
+  .footer-container {
+    display: block;
+    text-align: left;
+  }
+
+  .footer-section {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .footer-section h3 {
+    font-size: 1.2em;
+  }
+}
 </style>

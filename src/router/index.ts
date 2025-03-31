@@ -3,13 +3,16 @@ import VueRouter, { RouteConfig } from "vue-router";
 import HomePage from "@/views/HomePage.vue";
 import LoginPage from "@/views/LoginPage.vue";
 import RegisterPage from "@/views/RegisterPage.vue";
+import AboutPage from "@/views/AboutPage.vue";
+import ProductsPage from "@/views/ProductsPage.vue";
+import ContactPage from "@/views/ContactPage.vue";
 
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
   {
     path: "/home",
-    name: "homepage",
+    name: "home",
     component: HomePage,
   },
   {
@@ -21,6 +24,21 @@ const routes: Array<RouteConfig> = [
     path: "/register",
     name: "register",
     component: RegisterPage,
+  },
+  {
+    path: "/products",
+    name: "products",
+    component: ProductsPage,
+  },
+  {
+    path: "/about",
+    name: "about",
+    component: AboutPage,
+  },
+  {
+    path: "/contact",
+    name: "contact",
+    component: ContactPage,
   },
 ];
 

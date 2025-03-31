@@ -82,7 +82,7 @@ footer {
 }
 
 .footer-section a {
-    color: white;
+    color: white !important;
     text-decoration: none;
     font-size: 1.2em;
     display: flex;
@@ -103,20 +103,4 @@ footer {
     margin-top: 30px;
     font-size: 0.9em;
     color: #bbb;
-}
-
-@media (max-width: 768px) {
-    .footer-container {
-        display: block;
-        text-align: left;
-    }
-
-    .footer-section {
-        width: 100%;
-        margin-bottom: 20px;
-    }
-
-    .footer-section h3 {
-        font-size: 1.2em;
-    }
 }

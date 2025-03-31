@@ -21,7 +21,7 @@
         <v-badge color="red" content="3" overlap></v-badge>
       </v-btn>
 
-      <v-btn icon @click="goToLogin">
+      <v-btn icon @click="goToPage('login')">
         <v-icon>mdi-account</v-icon>
       </v-btn>
       <!-- Mobile Menu Button -->
@@ -100,32 +100,7 @@
       </v-carousel-item>
     </v-carousel>
 
-    <v-main>
-      <v-container>
-        <!-- Favorite Products Section -->
-        <v-container>
-          <v-row>
-            <v-col
-              v-for="product in favoriteProducts"
-              :key="product.id"
-              cols="12"
-              md="4"
-            >
-              <v-card>
-                <v-img :src="product.image" height="200px"></v-img>
-                <v-card-title>{{ product.name }}</v-card-title>
-                <v-card-subtitle>{{
-                  product.price | currency
-                }}</v-card-subtitle>
-                <v-card-actions>
-                  <v-btn color="primary">Thêm vào giỏ</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-container>
-    </v-main>
+    <v-main> </v-main>
 
     <v-btn @click="toggleTheme"> Chuyển đổi theme </v-btn>
 
@@ -134,7 +109,6 @@
   </v-app>
 </template>
 
-<!--<script src="@/scripts/HomePage.ts"></script>-->
 <script>
 import { defineComponent } from "vue";
 import useHeader from "@/scripts/HomePage.ts";
@@ -157,8 +131,11 @@ export default defineComponent({
     };
   },
   methods: {
-    goToLogin() {
-      this.$router.push({ name: "login" });
+    goToPage(page) {
+      const currentRouteName = this.$route.name;
+      if (currentRouteName !== page) {
+        this.$router.push({ name: page });
+      }
     },
     toggleTheme() {
       this.isDark = !this.isDark;
