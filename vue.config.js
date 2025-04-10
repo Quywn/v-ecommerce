@@ -9,4 +9,9 @@ module.exports = {
       css: {},
     },
   },
+  configureWebpack: {
+    resolve: {
+      extensions: [".ts", ".js", ".vue", ".json"],
+    },
+  },
 };

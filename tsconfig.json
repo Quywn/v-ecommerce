@@ -12,14 +12,14 @@
     "forceConsistentCasingInFileNames": true,
     "useDefineForClassFields": true,
     "sourceMap": true,
-    "baseUrl": ".",
+    "baseUrl": ".src",
     "types": [
       "webpack-env",
       "jest"
     ],
     "paths": {
       "@/*": [
-        "src/*"
+        "*"
       ]
     },
     "lib": [

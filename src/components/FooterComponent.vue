@@ -22,12 +22,13 @@
           <ul>
             <li>
               <a href="https://www.facebook.com/quyencake" target="_blank">
-                <i class="fab fa-facebook-f"></i> Facebook
+                <v-icon>mdi-facebook</v-icon> Facebook
+                <!--todo: check trong vuetify có icon k-->
               </a>
             </li>
             <li>
               <a href="https://shopee.vn/quyencake" target="_blank">
-                <i class="fab fa-shopify"></i> Shopee
+                <v-icon>mdi-cart</v-icon> Shopee
               </a>
             </li>
           </ul>

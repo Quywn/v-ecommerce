@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     register() {
-      // Thực hiện logic đăng ký ở đây
+      // add logic
       console.log("Đăng ký với tên người dùng:", this.username);
     },
   },
