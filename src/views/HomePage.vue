@@ -77,21 +77,16 @@ export default defineComponent({
     };
   },
   methods: {
-    goToPage(page) {
-      const currentRouteName = this.$route.name;
-      if (currentRouteName !== page) {
-        this.$router.push({ name: page });
-      }
-    },
-    toggleTheme() {
-      this.isDark = !this.isDark;
-      this.$vuetify.theme.dark = this.isDark;
-    },
+    // toggleTheme() {
+    //   this.isDark = !this.isDark;
+    //   this.$vuetify.theme.dark = this.isDark;
+    // },
     addToCart(product) {
       //add logic
       console.log(`Đã thêm ${product.name} vào giỏ.`);
     },
   },
+  //fake data demo
   data() {
     return {
       bestSellers: [

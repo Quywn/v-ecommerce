@@ -37,7 +37,9 @@
 
       <!-- Footer Bottom -->
       <div class="footer-bottom">
-        <p>&copy; 2025 Cửa hàng Bánh Online - Hotline: 0xx.xxx.xxx</p>
+        <p>
+          &copy; 2025 Bánh Mì 247 | Thơm ngon mỗi ngày 🥖 - Hotline: 0xx.xxx.xxx
+        </p>
       </div>
     </v-container>
   </v-footer>
