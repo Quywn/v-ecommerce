@@ -38,7 +38,7 @@ export default {
     return {
       drawer: true,
       menuItemsAdmin: [
-        { title: "Trang chủ", icon: "mdi-home", route: "/admin-dashboard" },
+        { title: "Trang chủ", icon: "mdi-home", route: "/admin/dashboard" },
         {
           title: "Quản lý sản phẩm",
           icon: "mdi-cogs",

@@ -6,8 +6,8 @@ import AdminLayout from "@/layout/AdminLayout.vue";
 
 import Home from "@/views/HomePage.vue";
 import ProductDetail from "@/views/ProductDetail.vue";
-import ProductManagement from "@/components/ProductManagement.vue";
-import AdminDashboard from "@/components/AdminDashboard.vue";
+import ProductManagement from "@/views/ProductManagement.vue";
+import AdminDashboard from "@/views/AdminDashboard.vue";
 
 Vue.use(VueRouter);
 const routes: RouteConfig[] = [
