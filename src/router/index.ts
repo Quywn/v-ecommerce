@@ -15,9 +15,17 @@ const routes: RouteConfig[] = [
     path: "/",
     component: DefaultLayout,
     children: [
-      { path: "", component: Home },
-      { path: "product/:id", component: ProductDetail },
-      { path: "about", component: () => import("@/views/AboutPage.vue") },
+      { path: "home", name: "routes.home", component: Home },
+      {
+        path: "product/:id",
+        name: "routes.product/:id",
+        component: ProductDetail,
+      },
+      {
+        path: "about",
+        name: "routes.about",
+        component: () => import("@/views/AboutPage.vue"),
+      },
     ],
   },
   {
@@ -26,10 +34,12 @@ const routes: RouteConfig[] = [
     children: [
       {
         path: "dashboard",
+        name: "routes.dashboard",
         component: AdminDashboard,
       },
       {
         path: "products",
+        name: "routes.products",
         component: ProductManagement,
       },
     ],

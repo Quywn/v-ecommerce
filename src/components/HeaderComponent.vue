@@ -6,10 +6,10 @@
 
       <!-- Navigation Menu -->
       <div class="d-none d-md-flex justify-center flex-grow-1">
-        <v-btn text @click="goToPage('home')">Trang chủ</v-btn>
-        <v-btn text @click="goToPage('about')">Giới thiệu</v-btn>
-        <v-btn text @click="goToPage('products')">Sản phẩm</v-btn>
-        <v-btn text @click="goToPage('voucher')">Khuyến mãi</v-btn>
+        <v-btn text @click="goToPath('/home')">Trang chủ</v-btn>
+        <v-btn text @click="goToPath('/about')">Giới thiệu</v-btn>
+        <v-btn text @click="goToPath('/products')">Sản phẩm</v-btn>
+        <v-btn text @click="goToPath('/voucher')">Khuyến mãi</v-btn>
       </div>
       <!-- Search and Cart icons -->
       <v-btn icon @click="toggleSearch">
@@ -21,7 +21,7 @@
         <v-badge color="red" content="3" overlap></v-badge>
       </v-btn>
 
-      <v-btn icon @click="goToPage('login')">
+      <v-btn icon @click="goToPath('login')">
         <v-icon>mdi-account</v-icon>
       </v-btn>
       <!-- Mobile Menu Button -->
@@ -32,10 +32,10 @@
 
         <!-- Mobile Menu Items -->
         <v-list>
-          <v-list-item @click="goToPage('home')">Trang chủ</v-list-item>
-          <v-list-item @click="goToPage('about')">Giới thiệu</v-list-item>
-          <v-list-item @click="goToPage('products')">Sản phẩm</v-list-item>
-          <v-list-item @click="goToPage('voucher')">Khuyến mãi</v-list-item>
+          <v-list-item @click="goToPath('/home')">Trang chủ</v-list-item>
+          <v-list-item @click="goToPath('/about')">Giới thiệu</v-list-item>
+          <v-list-item @click="goToPath('/products')">Sản phẩm</v-list-item>
+          <v-list-item @click="goToPath('/voucher')">Khuyến mãi</v-list-item>
         </v-list>
       </v-menu>
     </v-app-bar>
@@ -62,8 +62,10 @@
 export default {
   name: "HeaderComponent",
   methods: {
-    goToPage(route) {
-      this.$router.push(route);
+    goToPath(path) {
+      if (this.$route.path !== path) {
+        this.$router.push({ path: path });
+      }
     },
   },
 };

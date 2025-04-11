@@ -52,7 +52,9 @@ export default {
   },
   methods: {
     goToPage(route) {
-      this.$router.push(route);
+      if (this.$route.path !== route) {
+        this.$router.push(route);
+      }
     },
     logout() {
       // Logic đăng xuất (có thể xóa token hoặc trạng thái người dùng)
