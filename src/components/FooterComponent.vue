@@ -50,4 +50,83 @@ export default {
   name: "FooterComponent",
 };
 </script>
-<style scoped src="@/styles/HomePage.css"></style>
+
+<style scoped>
+footer {
+  background-color: #333 !important;
+  color: white !important;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.footer-section {
+  width: 30%;
+  margin-bottom: 20px;
+}
+
+.footer-section h3 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #ffcc00;
+}
+
+.footer-section p {
+  font-size: 1em;
+  line-height: 1.6;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 10px;
+}
+
+.footer-section a {
+  color: white !important;
+  text-decoration: none;
+  font-size: 1.2em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-section a:hover {
+  color: #ffcc00;
+}
+
+.footer-section a i {
+  font-size: 1.5em;
+}
+
+.footer-bottom {
+  font-size: 0.9em;
+  color: #bbb;
+  text-align: center;
+}
+/* For small windows */
+@media (max-width: 767px) {
+  .footer-container {
+    display: block;
+    text-align: left;
+  }
+
+  .footer-section {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .footer-section h3 {
+    font-size: 1.2em;
+  }
+}
+</style>

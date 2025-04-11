@@ -70,3 +70,37 @@ export default {
   },
 };
 </script>
+<style scoped>
+.v-app-bar .logo {
+  max-width: 200px;
+}
+
+.v-btn {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* For small windows */
+@media (max-width: 767px) {
+  .v-app-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .d-none.d-md-flex {
+    display: none !important;
+  }
+}
+
+/* For large windows */
+@media (min-width: 768px) {
+  .d-none.d-md-flex {
+    display: flex;
+  }
+
+  .d-flex.justify-end {
+    display: flex;
+  }
+}
+</style>

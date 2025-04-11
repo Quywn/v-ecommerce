@@ -57,7 +57,7 @@ export default {
       }
     },
     logout() {
-      // Logic đăng xuất (có thể xóa token hoặc trạng thái người dùng)
+      // Logic đăng xuất
       this.$router.push("/auth");
     },
   },
