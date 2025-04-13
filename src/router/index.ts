@@ -49,6 +49,10 @@ const routes: RouteConfig[] = [
     path: "/login",
     component: () => import("@/views/LoginPage.vue"),
   },
+  {
+    path: "/register",
+    component: () => import("@/views/RegisterPage.vue"),
+  },
 ];
 const router = new VueRouter({
   mode: "history", // Dùng mode history để không có dấu # trong URL
