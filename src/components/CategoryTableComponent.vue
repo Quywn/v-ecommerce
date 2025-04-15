@@ -1,25 +1,35 @@
 <template>
-  <div>
-    <v-btn color="primary" @click="openDialog()">Thêm danh mục</v-btn>
-    <template>
-      <v-data-table :headers="headers" :items="products">
-        <template slot="item.category" slot-scope="{ item }">
-          {{ getCategoryName(item.categoryId) }}
-        </template>
-        <template slot="item.actions" slot-scope="{ item }">
-          <v-icon small class="mr-2" @click="editProduct(item)"
-            >mdi-pencil</v-icon
-          >
-          <v-icon small @click="deleteProduct(item.id)">mdi-delete</v-icon>
-        </template>
-      </v-data-table>
-    </template>
-    <v-dialog v-model="dialog" max-width="500px">
+  <v-card>
+    <v-toolbar flat>
+      <v-toolbar-title>📁 Danh sách danh mục</v-toolbar-title>
+      <v-spacer />
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Tìm kiếm danh mục..."
+        dense
+        hide-details
+        class="mr-4"
+      />
+      <v-btn color="primary" @click="openDialog()">+ Thêm danh mục</v-btn>
+    </v-toolbar>
+
+    <v-data-table
+      :headers="headers"
+      :items="categories"
+      item-key="id"
+      class="elevation-1"
+    >
+      <template slot="item.actions" slot-scope="{ item }">
+        <v-icon small class="mr-2" @click="openDialog(item)">mdi-pencil</v-icon>
+        <v-icon small @click="confirmDelete(item)">mdi-delete</v-icon>
+      </template>
+    </v-data-table>
+
+    <v-dialog v-model="dialog" max-width="400px">
       <v-card>
         <v-card-title>
-          <span class="headline"
-            >{{ editedIndex === -1 ? "Thêm" : "Sửa" }} danh mục</span
-          >
+          {{ editedItem.id ? "✏️ Sửa danh mục" : "➕ Thêm danh mục" }}
         </v-card-title>
         <v-card-text>
           <v-text-field v-model="editedItem.name" label="Tên danh mục" />
@@ -27,11 +37,26 @@
         <v-card-actions>
           <v-spacer />
           <v-btn text @click="closeDialog">Hủy</v-btn>
-          <v-btn text @click="saveCategory">Lưu</v-btn>
+          <v-btn color="primary" @click="save">Lưu</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </div>
+
+    <v-dialog v-model="confirm" max-width="400">
+      <v-card>
+        <v-card-title>Xác nhận xóa</v-card-title>
+        <v-card-text>
+          Bạn có chắc muốn xóa <strong>{{ toDelete?.name }}</strong
+          >?
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn text @click="confirm = false">Hủy</v-btn>
+          <v-btn color="red" text @click="deleteItem">Xóa</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-card>
 </template>
 
 <script>
@@ -39,44 +64,48 @@ export default {
   data() {
     return {
       dialog: false,
-      editedIndex: -1,
-      editedItem: {
-        name: "",
-      },
-      headers: [
-        { text: "Tên danh mục", value: "name" },
-        { text: "Hành động", value: "actions", sortable: false },
-      ],
+      confirm: false,
+      toDelete: null,
+      editedItem: {},
       categories: [
         { id: 1, name: "Điện thoại" },
         { id: 2, name: "Laptop" },
       ],
+      headers: [
+        { text: "Tên danh mục", value: "name" },
+        { text: "Hành động", value: "actions", sortable: false },
+      ],
     };
   },
   methods: {
-    openDialog() {
-      this.editedIndex = -1;
-      this.editedItem = { name: "" };
+    openDialog(item = null) {
+      this.editedItem = item ? { ...item } : { name: "" };
       this.dialog = true;
-    },
-    editCategory(item) {
-      this.editedIndex = this.categories.findIndex((c) => c.id === item.id);
-      this.editedItem = Object.assign({}, item);
-      this.dialog = true;
-    },
-    deleteCategory(id) {
-      this.categories = this.categories.filter((c) => c.id !== id);
     },
     closeDialog() {
       this.dialog = false;
     },
-    saveCategory() {
-      if (this.editedIndex === -1) {
-        this.categories.push({ ...this.editedItem, id: Date.now() });
+    save() {
+      if (this.editedItem.id) {
+        const index = this.categories.findIndex(
+          (c) => c.id === this.editedItem.id
+        );
+        this.categories.splice(index, 1, this.editedItem);
       } else {
-        Object.assign(this.categories[this.editedIndex], this.editedItem);
+        this.editedItem.id = Date.now();
+        this.categories.push(this.editedItem);
       }
       this.closeDialog();
+    },
+    confirmDelete(item) {
+      this.toDelete = item;
+      this.confirm = true;
+    },
+    deleteItem() {
+      this.categories = this.categories.filter(
+        (c) => c.id !== this.toDelete.id
+      );
+      this.confirm = false;
     },
   },
 };

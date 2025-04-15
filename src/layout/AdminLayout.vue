@@ -2,7 +2,7 @@
   <v-app>
     <!-- App Bar -->
     <v-app-bar app color="primary" dark>
-      <v-toolbar-title>Quản lý Sản Phẩm</v-toolbar-title>
+      <v-toolbar-title></v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn @click="logout" text>Đăng Xuất</v-btn>
     </v-app-bar>

@@ -1,108 +1,137 @@
 <template>
-  <div>
-    <v-btn color="primary" @click="openDialog()">Thêm sản phẩm</v-btn>
-    <template>
-      <v-data-table :headers="headers" :items="products" class="mt-4">
-        <!-- Cập nhật lại slot category với slot-scope -->
-        <template slot="item.category" slot-scope="{ item }">
-          {{ getCategoryName(item.categoryId) }}
-        </template>
+  <v-card>
+    <!-- Toolbar -->
+    <v-toolbar flat>
+      <v-toolbar-title>📦 Danh sách sản phẩm</v-toolbar-title>
+      <v-spacer />
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Tìm kiếm sản phẩm..."
+        dense
+        hide-details
+        class="mr-4"
+      />
+      <v-btn color="primary" @click="openDialog()">+ Thêm sản phẩm</v-btn>
+    </v-toolbar>
 
-        <!-- Cập nhật lại slot actions với slot-scope -->
-        <template slot="item.actions" slot-scope="{ item }">
-          <v-icon small class="mr-2" @click="editProduct(item)"
-            >mdi-pencil</v-icon
-          >
-          <v-icon small @click="deleteProduct(item.id)">mdi-delete</v-icon>
-        </template>
-      </v-data-table>
-    </template>
+    <!-- Data table -->
+    <v-data-table
+      :headers="headers"
+      :items="filteredProducts"
+      item-key="id"
+      class="elevation-1"
+      :items-per-page="5"
+    >
+      <template slot="item.actions" slot-scope="{ item }">
+        <v-icon small class="mr-2" @click="openDialog(item)">mdi-pencil</v-icon>
+        <v-icon small @click="confirmDelete(item)">mdi-delete</v-icon>
+      </template>
+    </v-data-table>
 
-    <v-dialog v-model="dialog" max-width="600px">
+    <!-- Dialog thêm/sửa -->
+    <v-dialog v-model="dialog" max-width="500px">
       <v-card>
         <v-card-title>
-          <span class="headline"
-            >{{ editedIndex === -1 ? "Thêm" : "Sửa" }} sản phẩm</span
-          >
+          {{ editedItem.id ? "✏️ Sửa sản phẩm" : "➕ Thêm sản phẩm" }}
         </v-card-title>
-
         <v-card-text>
           <v-text-field v-model="editedItem.name" label="Tên sản phẩm" />
-          <v-text-field v-model="editedItem.price" label="Giá" type="number" />
+          <v-text-field
+            v-model="editedItem.price"
+            label="Giá (VNĐ)"
+            type="number"
+          />
           <v-select
-            v-model="editedItem.categoryId"
+            v-model="editedItem.category"
             :items="categories"
-            item-text="name"
-            item-value="id"
             label="Danh mục"
           />
         </v-card-text>
-
         <v-card-actions>
           <v-spacer />
           <v-btn text @click="closeDialog">Hủy</v-btn>
-          <v-btn color="primary" text @click="saveProduct">Lưu</v-btn>
+          <v-btn color="primary" @click="save">Lưu</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </div>
+
+    <!-- Confirm xóa -->
+    <v-dialog v-model="confirm" max-width="400">
+      <v-card>
+        <v-card-title>Xác nhận xóa</v-card-title>
+        <v-card-text>
+          Bạn có chắc muốn xóa <strong>{{ toDelete?.name }}</strong
+          >?
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn text @click="confirm = false">Hủy</v-btn>
+          <v-btn color="red" text @click="deleteItem">Xóa</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-card>
 </template>
 
 <script>
 export default {
   data() {
     return {
+      search: "",
       dialog: false,
-      editedIndex: -1,
-      editedItem: {
-        name: "",
-        price: "",
-        categoryId: null,
-      },
+      confirm: false,
+      toDelete: null,
+      editedItem: {},
       headers: [
         { text: "Tên sản phẩm", value: "name" },
         { text: "Giá", value: "price" },
         { text: "Danh mục", value: "category" },
         { text: "Hành động", value: "actions", sortable: false },
       ],
-      categories: [
-        { id: 1, name: "Điện thoại" },
-        { id: 2, name: "Laptop" },
-      ],
       products: [
-        { id: 1, name: "iPhone 14", price: 20000000, categoryId: 1 },
-        { id: 2, name: "MacBook Pro", price: 40000000, categoryId: 2 },
+        { id: 1, name: "iPhone 15", price: 20000000, category: "Điện thoại" },
+        { id: 2, name: "MacBook Air", price: 32000000, category: "Laptop" },
       ],
+      categories: ["Điện thoại", "Laptop", "Phụ kiện"],
     };
   },
+  computed: {
+    filteredProducts() {
+      return this.products.filter((p) =>
+        p.name.toLowerCase().includes(this.search.toLowerCase())
+      );
+    },
+  },
   methods: {
-    openDialog() {
-      this.editedIndex = -1;
-      this.editedItem = { name: "", price: "", categoryId: null };
+    openDialog(item = null) {
+      this.editedItem = item
+        ? { ...item }
+        : { name: "", price: "", category: "" };
       this.dialog = true;
-    },
-    editProduct(item) {
-      this.editedIndex = this.products.findIndex((p) => p.id === item.id);
-      this.editedItem = Object.assign({}, item);
-      this.dialog = true;
-    },
-    deleteProduct(id) {
-      this.products = this.products.filter((p) => p.id !== id);
     },
     closeDialog() {
       this.dialog = false;
     },
-    saveProduct() {
-      if (this.editedIndex === -1) {
-        this.products.push({ ...this.editedItem, id: Date.now() });
+    save() {
+      if (this.editedItem.id) {
+        const index = this.products.findIndex(
+          (p) => p.id === this.editedItem.id
+        );
+        this.products.splice(index, 1, this.editedItem);
       } else {
-        Object.assign(this.products[this.editedIndex], this.editedItem);
+        this.editedItem.id = Date.now();
+        this.products.push(this.editedItem);
       }
       this.closeDialog();
     },
-    getCategoryName(id) {
-      const cat = this.categories.find((c) => c.id === id);
-      return cat ? cat.name : "Không rõ";
+    confirmDelete(item) {
+      this.toDelete = item;
+      this.confirm = true;
+    },
+    deleteItem() {
+      this.products = this.products.filter((p) => p.id !== this.toDelete.id);
+      this.confirm = false;
     },
   },
 };
