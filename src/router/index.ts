@@ -4,10 +4,10 @@ import VueRouter, { RouteConfig } from "vue-router";
 import DefaultLayout from "@/layout/DefaultLayout.vue";
 import AdminLayout from "@/layout/AdminLayout.vue";
 
-import Home from "@/views/HomePage.vue";
-import ProductDetail from "@/views/ProductDetail.vue";
-import ProductManagement from "@/views/ProductManagement.vue";
-import AdminDashboard from "@/views/AdminDashboard.vue";
+import Home from "@/pages/HomePage.vue";
+import ProductDetail from "@/pages/ProductDetailPage.vue";
+import ProductManagement from "@/pages/ProductManagementPage.vue";
+import AdminDashboard from "@/pages/AdminDashboardPage.vue";
 
 Vue.use(VueRouter);
 const routes: RouteConfig[] = [

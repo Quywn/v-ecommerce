@@ -4,13 +4,20 @@
       <v-card-title class="text-h6">Đăng nhập</v-card-title>
       <v-card-text>
         <v-form @submit.prevent="handleLogin">
-          <v-text-field v-model="username" label="Username" required />
+          <v-text-field
+            v-model="username"
+            label="Tên đăng nhập"
+            required
+          ></v-text-field>
           <v-text-field
             v-model="password"
+            :type="showPassword ? 'text' : 'password'"
             label="Mật khẩu"
-            type="password"
+            :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+            @click:append="togglePassword"
             required
-          />
+          ></v-text-field>
+
           <v-btn color="primary" type="submit" block>Đăng nhập</v-btn>
         </v-form>
       </v-card-text>
@@ -25,27 +32,37 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
+import axios from "axios";
 
 @Component
 export default class Login extends Vue {
-  valid = false;
-  email = "";
+  username = "";
   password = "";
-
-  emailRules = [
-    (v: string) => !!v || "Email không được để trống",
-    (v: string) => /.+@.+\..+/.test(v) || "Email không hợp lệ",
-  ];
+  showPassword = false;
+  usernameRules = [(v: string) => !!v || "Email không được để trống"];
 
   passwordRules = [
     (v: string) => !!v || "Mật khẩu không được để trống",
     (v: string) => v.length >= 6 || "Mật khẩu tối thiểu 6 ký tự",
   ];
 
-  login() {
-    if ((this.$refs.form as any).validate()) {
-      console.log("Đăng nhập:", this.email, this.password);
-      // Xử lý đăng nhập ở đây
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
+
+  async handleLogin() {
+    try {
+      const res = await axios.post("http://localhost:1234/login", {
+        username: this.username,
+        password: this.password,
+      });
+      const token = res.data.accessToken;
+      localStorage.setItem("token", token);
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      this.$router.replace("/admin/dashboard"); // hoặc nơi bạn muốn điều hướng đến
+    } catch (error) {
+      alert("Đăng nhập thất bại!");
+      console.error(error);
     }
   }
 

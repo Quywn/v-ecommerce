@@ -4,12 +4,7 @@
       <v-card-title class="text-h6">Đăng ký</v-card-title>
 
       <v-card-text>
-        <v-form
-          @submit.prevent="handleRegister"
-          ref="form"
-          v-model="valid"
-          lazy-validation
-        >
+        <v-form @submit.prevent="handleRegister" ref="form" v-model="valid">
           <v-text-field v-model="username" label="Username" required />
           <v-text-field
             v-model="email"
@@ -47,10 +42,12 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
+import axios from "axios";
 
 @Component
 export default class Register extends Vue {
   valid = false;
+  username = "";
   email = "";
   password = "";
   confirmPassword = "";
@@ -67,22 +64,35 @@ export default class Register extends Vue {
     (v: string) => v.length >= 6 || "Mật khẩu tối thiểu 6 ký tự",
   ];
 
-  // Validation cho Xác nhận Mật khẩu
-  confirmPasswordRules = [
-    (v: string) => !!v || "Xác nhận mật khẩu không được để trống",
-    (v: string) =>
-      v === this.password || "Mật khẩu xác nhận không khớp với mật khẩu",
-  ];
+  // ✅ CHUYỂN THÀNH GETTER
+  get confirmPasswordRules() {
+    return [
+      (v: string) => !!v || "Xác nhận mật khẩu không được để trống",
+      (v: string) =>
+        v === this.password || "Mật khẩu xác nhận không khớp với mật khẩu",
+    ];
+  }
 
   // Hàm đăng ký
-  register() {
+  async handleRegister() {
     if ((this.$refs.form as any).validate()) {
       console.log("Đăng ký:", this.email, this.password);
-      // Bạn có thể gửi email và mật khẩu đến backend ở đây
+      // Gửi dữ liệu đăng ký đến backend nếu cần
+      try {
+        await axios.post("http://localhost:1234/register", {
+          username: this.username,
+          email: this.email,
+          password: this.password,
+        });
+        alert("Đăng ký thành công!");
+        this.$router.push("/login");
+      } catch (error) {
+        alert("Đăng ký thất bại!");
+        console.error(error);
+      }
     }
   }
 
-  // Chuyển hướng đến trang đăng nhập
   goToLogin() {
     this.$router.push("/login");
   }
