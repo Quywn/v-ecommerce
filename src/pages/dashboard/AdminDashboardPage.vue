@@ -18,42 +18,42 @@
     </v-row>
 
     <!-- SECTION 2: Tạo tài khoản admin -->
-    <v-card class="my-5">
-      <v-card-title>
-        Quản lý tài khoản admin
-        <v-spacer />
-        <v-btn color="primary" @click="showCreateDialog = true">Tạo mới</v-btn>
-      </v-card-title>
-    </v-card>
+    <!--    <v-card class="my-5">-->
+    <!--      <v-card-title>-->
+    <!--        Quản lý tài khoản admin-->
+    <!--        <v-spacer />-->
+    <!--        <v-btn color="primary" @click="showCreateDialog = true">Tạo mới</v-btn>-->
+    <!--      </v-card-title>-->
+    <!--    </v-card>-->
 
     <!-- Dialog -->
-    <v-dialog v-model="showCreateDialog" max-width="500px">
-      <v-card>
-        <v-card-title>Tạo tài khoản admin</v-card-title>
-        <v-card-text>
-          <v-text-field label="Họ tên" v-model="newAdmin.name" />
-          <v-text-field label="Email" v-model="newAdmin.email" />
-          <v-text-field
-            label="Mật khẩu"
-            v-model="newAdmin.password"
-            type="password"
-          />
-          <v-select
-            label="Vai trò"
-            :items="['Admin', 'Nhân viên']"
-            v-model="newAdmin.role"
-          />
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn text @click="showCreateDialog = false">Hủy</v-btn>
-          <v-btn color="primary" text @click="createAdmin">Tạo</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <!--    <v-dialog v-model="showCreateDialog" max-width="500px">-->
+    <!--      <v-card>-->
+    <!--        <v-card-title>Tạo tài khoản admin</v-card-title>-->
+    <!--        <v-card-text>-->
+    <!--          <v-text-field label="Họ tên" v-model="newAdmin.name" />-->
+    <!--          <v-text-field label="Email" v-model="newAdmin.email" />-->
+    <!--          <v-text-field-->
+    <!--            label="Mật khẩu"-->
+    <!--            v-model="newAdmin.password"-->
+    <!--            type="password"-->
+    <!--          />-->
+    <!--          <v-select-->
+    <!--            label="Vai trò"-->
+    <!--            :items="['Admin', 'Nhân viên']"-->
+    <!--            v-model="newAdmin.role"-->
+    <!--          />-->
+    <!--        </v-card-text>-->
+    <!--        <v-card-actions>-->
+    <!--          <v-spacer />-->
+    <!--          <v-btn text @click="showCreateDialog = false">Hủy</v-btn>-->
+    <!--          <v-btn color="primary" text @click="createAdmin">Tạo</v-btn>-->
+    <!--        </v-card-actions>-->
+    <!--      </v-card>-->
+    <!--    </v-dialog>-->
 
     <!-- SECTION 3: Lịch sử hoạt động admin -->
-    <v-card class="mb-5">
+    <v-card class="my-5">
       <v-card-title>Lịch sử hoạt động admin</v-card-title>
       <v-data-table :headers="activityHeaders" :items="adminActivities" dense />
     </v-card>

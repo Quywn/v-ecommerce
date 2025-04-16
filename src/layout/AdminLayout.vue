@@ -41,12 +41,19 @@ export default {
         { title: "Trang chủ", icon: "mdi-home", route: "/admin/dashboard" },
         {
           title: "Quản lý sản phẩm",
-          icon: "mdi-cogs",
+          icon: "mdi-cart",
           route: "/admin/products",
         },
-        { title: "Đơn hàng", icon: "mdi-cart", route: "/admin/orders" },
-        { title: "Người dùng", icon: "mdi-account", route: "/admin/users" },
-        { title: "Cài đặt", icon: "mdi-settings", route: "/admin/settings" },
+        {
+          title: "Quản lý người dùng",
+          icon: "mdi-account",
+          route: "/admin/users",
+        },
+        {
+          title: "Quản lý hệ thống",
+          icon: "mdi-cogs",
+          route: "/admin/settings",
+        },
       ],
     };
   },
