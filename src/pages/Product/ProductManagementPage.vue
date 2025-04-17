@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import CategoryTable from "@/components/CategoryTableComponent.vue";
-import ProductTable from "@/components/ProductTableComponent.vue";
+import CategoryTable from "@/src/components/CategoryTableComponent.vue";
+import ProductTable from "@/src/components/ProductTableComponent.vue";
 
 export default {
   components: {

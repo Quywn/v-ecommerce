@@ -5,9 +5,9 @@ import DefaultLayout from "@/layout/DefaultLayout.vue";
 import AdminLayout from "@/layout/AdminLayout.vue";
 
 import Home from "@/pages/HomePage.vue";
-import ProductDetail from "@/pages/ProductDetailPage.vue";
-import ProductManagement from "@/pages/ProductManagementPage.vue";
-import AdminDashboard from "@/pages/dashboard/AdminDashboardPage.vue";
+import ProductDetail from "@/pages/Product/ProductDetailPage.vue";
+import ProductManagement from "@/pages/Product/ProductManagementPage.vue";
+import AdminDashboard from "@/pages/AdminDashboardPage.vue";
 import UserManagement from "@/pages/UserManagementPage.vue";
 import Setting from "@/pages/SettingPage.vue";
 
@@ -69,6 +69,15 @@ const routes: RouteConfig[] = [
 const router = new VueRouter({
   mode: "history", // Dùng mode history để không có dấu # trong URL
   routes,
+});
+
+// Auth guard
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem("token");
+  if (to.path.startsWith("/admin") && !token && to.path !== "/login") {
+    return next("/login");
+  }
+  next();
 });
 
 export default router;
