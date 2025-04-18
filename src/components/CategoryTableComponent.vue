@@ -11,28 +11,29 @@
         hide-details
         class="mr-4"
       />
-      <v-btn color="primary" @click="openDialog()">+ Thêm danh mục</v-btn>
+      <v-btn color="primary" @click="openDialog">+ Thêm danh mục</v-btn>
     </v-toolbar>
 
     <v-data-table
       :headers="headers"
-      :items="categories"
-      item-key="id"
+      :items="filteredCategories"
+      item-key="categoryName"
       class="elevation-1"
     >
       <template slot="item.actions" slot-scope="{ item }">
-        <v-icon small class="mr-2" @click="openDialog(item)">mdi-pencil</v-icon>
         <v-icon small @click="confirmDelete(item)">mdi-delete</v-icon>
       </template>
     </v-data-table>
 
+    <!-- Dialog thêm danh mục -->
     <v-dialog v-model="dialog" max-width="400px">
       <v-card>
-        <v-card-title>
-          {{ editedItem.id ? "✏️ Sửa danh mục" : "➕ Thêm danh mục" }}
-        </v-card-title>
+        <v-card-title>➕ Thêm danh mục</v-card-title>
         <v-card-text>
-          <v-text-field v-model="editedItem.name" label="Tên danh mục" />
+          <v-text-field
+            v-model="editedItem.categoryName"
+            label="Tên danh mục"
+          />
         </v-card-text>
         <v-card-actions>
           <v-spacer />
@@ -42,11 +43,12 @@
       </v-card>
     </v-dialog>
 
+    <!-- Dialog xác nhận xóa -->
     <v-dialog v-model="confirm" max-width="400">
       <v-card>
         <v-card-title>Xác nhận xóa</v-card-title>
         <v-card-text>
-          Bạn có chắc muốn xóa <strong>{{ toDelete?.name }}</strong
+          Bạn có chắc muốn xóa <strong>{{ toDelete?.categoryName }}</strong
           >?
         </v-card-text>
         <v-card-actions>
@@ -59,54 +61,83 @@
   </v-card>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from "vue";
+import categoryService from "@/services/categoryService";
+import { Category } from "@/models/category";
+
+export default Vue.extend({
   data() {
     return {
+      search: "",
       dialog: false,
       confirm: false,
-      toDelete: null,
-      editedItem: {},
-      categories: [
-        { id: 1, name: "Điện thoại" },
-        { id: 2, name: "Laptop" },
-      ],
+      toDelete: null as Category | null,
+      editedItem: {
+        categoryName: "",
+      } as Category,
+      categories: [] as Category[],
       headers: [
-        { text: "Tên danh mục", value: "name" },
+        { text: "Tên danh mục", value: "categoryName" },
         { text: "Hành động", value: "actions", sortable: false },
       ],
     };
   },
+  computed: {
+    filteredCategories(): Category[] {
+      if (!this.search) return this.categories;
+      const keyword = this.search.toLowerCase();
+      return this.categories.filter((c) =>
+        c.categoryName.toLowerCase().includes(keyword)
+      );
+    },
+  },
   methods: {
-    openDialog(item = null) {
-      this.editedItem = item ? { ...item } : { name: "" };
+    async fetchCategories() {
+      try {
+        this.categories = await categoryService.getAll();
+      } catch (error) {
+        console.error("Lỗi khi tải danh mục:", error);
+      }
+    },
+    openDialog() {
+      this.editedItem = { categoryName: "" };
       this.dialog = true;
     },
     closeDialog() {
       this.dialog = false;
     },
-    save() {
-      if (this.editedItem.id) {
-        const index = this.categories.findIndex(
-          (c) => c.id === this.editedItem.id
-        );
-        this.categories.splice(index, 1, this.editedItem);
-      } else {
-        this.editedItem.id = Date.now();
-        this.categories.push(this.editedItem);
+    async save() {
+      try {
+        if (this.editedItem.categoryName) {
+          await categoryService.create(this.editedItem);
+          this.closeDialog();
+          this.fetchCategories();
+        }
+      } catch (error) {
+        console.error("Lỗi khi thêm danh mục:", error);
       }
-      this.closeDialog();
     },
-    confirmDelete(item) {
+    confirmDelete(item: Category) {
       this.toDelete = item;
       this.confirm = true;
     },
-    deleteItem() {
-      this.categories = this.categories.filter(
-        (c) => c.id !== this.toDelete.id
-      );
-      this.confirm = false;
+    async deleteItem() {
+      try {
+        if (this.toDelete) {
+          await categoryService.delete(this.toDelete.categoryName);
+          this.fetchCategories();
+        }
+      } catch (error) {
+        console.error("Lỗi khi xoá danh mục:", error);
+      } finally {
+        this.confirm = false;
+        this.toDelete = null;
+      }
     },
   },
-};
+  mounted() {
+    this.fetchCategories();
+  },
+});
 </script>

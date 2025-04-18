@@ -33,6 +33,7 @@ const routes: RouteConfig[] = [
   {
     path: "/admin",
     component: AdminLayout,
+    meta: { requiresAuth: true },
     children: [
       {
         path: "dashboard",
@@ -67,17 +68,20 @@ const routes: RouteConfig[] = [
   },
 ];
 const router = new VueRouter({
-  mode: "history", // Dùng mode history để không có dấu # trong URL
+  mode: "history",
   routes,
 });
 
-// Auth guard
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem("token");
-  if (to.path.startsWith("/admin") && !token && to.path !== "/login") {
-    return next("/login");
+
+  if (to.path === "/login" && token) {
+    next("/admin/dashboard");
+  } else if (to.matched.some((record) => record.meta.requiresAuth) && !token) {
+    next("/login");
+  } else {
+    next();
   }
-  next();
 });
 
 export default router;

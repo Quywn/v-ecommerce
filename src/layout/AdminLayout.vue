@@ -64,8 +64,8 @@ export default {
       }
     },
     logout() {
-      // Logic đăng xuất
-      this.$router.push("/auth");
+      localStorage.removeItem("token");
+      this.$router.replace("/login");
     },
   },
 };

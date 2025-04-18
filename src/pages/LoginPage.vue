@@ -56,10 +56,18 @@ export default class Login extends Vue {
         username: this.username,
         password: this.password,
       });
-      const token = res.data.accessToken;
+
+      const token = res.data.token;
       localStorage.setItem("token", token);
+      console.log("Response từ BE:", res.data);
+
+      // Gán header mặc định cho các request sau
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      this.$router.replace("/admin/dashboard"); // hoặc nơi bạn muốn điều hướng đến
+
+      // ✅ Delay 1 tick để đảm bảo navigation không bị chồng
+      setTimeout(() => {
+        this.$router.push("/admin/dashboard");
+      }, 0);
     } catch (error) {
       alert("Đăng nhập thất bại!");
       console.error(error);
