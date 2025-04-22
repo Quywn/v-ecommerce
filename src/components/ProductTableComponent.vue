@@ -6,7 +6,7 @@
       <v-text-field
         v-model="search"
         append-icon="mdi-magnify"
-        label="Tìm kiếm sản phẩm..."
+        label="Tìm kiếm sản phẩm"
         dense
         hide-details
         class="mr-4"
@@ -95,17 +95,34 @@
 import { Vue, Component } from "vue-property-decorator";
 import { Product } from "@/models/product";
 import { Category } from "@/models/category";
-import productService from "@/services/productService";
 import categoryService from "@/services/categoryService";
+import { Action, State } from "vuex-class"; // Import vuex-class decorators
 
 @Component
 export default class ProductTableComponent extends Vue {
-  // Dữ liệu
-  products: Product[] = [];
-  categories: Category[] = [];
-  search = "";
+  // State lấy từ Vuex
+  @State("products", { namespace: "product" }) products!: Product[];
 
-  // Table headers
+  // Actions lấy từ Vuex
+  @Action("fetchProducts", { namespace: "product" })
+  fetchProducts!: () => Promise<void>;
+  @Action("createProduct", { namespace: "product" }) createProduct!: (
+    product: Product
+  ) => Promise<void>;
+  @Action("updateProduct", { namespace: "product" }) updateProduct!: (
+    product: Product
+  ) => Promise<void>;
+  @Action("deleteProduct", { namespace: "product" }) deleteProduct!: (
+    productCode: string
+  ) => Promise<void>;
+
+  // other variables
+  search = "";
+  categories: Category[] = [];
+  dialog = false;
+  confirm = false;
+  toDelete: Product | null = null;
+  editedItem: Product = this.resetItem();
   headers = [
     { text: "Tên sản phẩm", value: "productName" },
     { text: "Giá", value: "price" },
@@ -114,17 +131,6 @@ export default class ProductTableComponent extends Vue {
     { text: "Đã bán", value: "quantityOrdered" },
     { text: "Hành động", value: "actions", sortable: false },
   ];
-
-  // Dialog & Form
-  dialog = false;
-  confirm = false;
-  toDelete: Product | null = null;
-  editedItem: Product = this.resetItem();
-
-  // Khi component được mount
-  mounted() {
-    this.fetchAll();
-  }
 
   // Computed: lọc sản phẩm theo từ khóa tìm kiếm
   get filteredProducts(): Product[] {
@@ -151,54 +157,38 @@ export default class ProductTableComponent extends Vue {
     };
   }
 
-  // Lấy dữ liệu từ API
-  async fetchAll() {
-    try {
-      this.products = await productService.getAll();
-      this.categories = await categoryService.getAll();
-    } catch (err) {
-      console.error("Lỗi khi tải dữ liệu:", err);
-    }
+  // Khi component được mount
+  mounted() {
+    this.fetchProducts();
   }
 
-  // Mở form thêm hoặc sửa
-  openDialog(item: Product | null = null) {
-    this.editedItem = item ? { ...item } : this.resetItem();
-    this.dialog = true;
-  }
-
-  // Lưu sản phẩm (thêm mới hoặc cập nhật)
+  // Lưu sản phẩm
   async save() {
-    try {
-      if (this.editedItem.productCode) {
-        await productService.update(this.editedItem);
-      } else {
-        await productService.create(this.editedItem);
-      }
-      this.dialog = false;
-      await this.fetchAll();
-    } catch (err) {
-      console.error("Lỗi khi lưu sản phẩm:", err);
+    if (this.editedItem.productCode) {
+      await this.updateProduct(this.editedItem);
+    } else {
+      await this.createProduct(this.editedItem);
     }
-  }
-
-  // Mở hộp thoại xác nhận xóa
-  confirmDelete(item: Product) {
-    this.toDelete = item;
-    this.confirm = true;
+    this.dialog = false;
   }
 
   // Xóa sản phẩm
   async deleteItem() {
     if (this.toDelete && this.toDelete.productCode) {
-      try {
-        await productService.delete(this.toDelete.productCode);
-        await this.fetchAll();
-      } catch (err) {
-        console.error("Lỗi khi xóa sản phẩm:", err);
-      }
+      await this.deleteProduct(this.toDelete.productCode);
     }
     this.confirm = false;
+  }
+
+  confirmDelete(item: Product) {
+    this.toDelete = item; // save Product to toDelete
+    this.confirm = true; // open dialog confirm
+  }
+
+  // Mở dialog thêm/sửa sản phẩm
+  openDialog(item: Product | null = null) {
+    this.editedItem = item ? { ...item } : this.resetItem();
+    this.dialog = true;
   }
 }
 </script>

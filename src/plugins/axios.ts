@@ -7,7 +7,7 @@ const instance = axios.create({
   },
 });
 
-// Interceptor thêm token vào request header
+// Interceptor add token to request header
 instance.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) {
