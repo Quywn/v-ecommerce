@@ -1,24 +1,31 @@
-// src/services/productService.ts
 import axios from "@/plugins/axios";
 import { Product } from "@/models/product";
 
 export default {
-  // Lấy danh sách tất cả sản phẩm
+  // Get all products
   getAll(): Promise<Product[]> {
     return axios.get("/general/products").then((res) => res.data);
   },
 
-  // Thêm sản phẩm
+  // Add product
   create(product: Product): Promise<Product> {
     return axios.post("/admin/product/create", product).then((res) => res.data);
   },
 
-  // Sửa sản phẩm
+  // Edit product
   update(product: Product): Promise<Product> {
     return axios.put("/admin/product/update", product).then((res) => res.data);
   },
 
-  // Xoá sản phẩm theo tên
+  // Get a product
+  async getOne(productName: string): Promise<string> {
+    const res = await axios.get("/user/product", {
+      params: { productName },
+    });
+    return res.data;
+  },
+
+  // Delete Product by Product Name
   delete(productName: string): Promise<string> {
     return axios
       .delete(`/admin/product/delete`, {

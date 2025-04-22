@@ -1,9 +1,7 @@
-// src/plugins/axios.ts
-
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:1234", // Thay bằng URL BE của bạn
+  baseURL: "http://localhost:1234",
   headers: {
     "Content-Type": "application/json",
   },

@@ -25,7 +25,7 @@
       </template>
     </v-data-table>
 
-    <!-- Dialog thêm danh mục -->
+    <!-- Dialog to Add category -->
     <v-dialog v-model="dialog" max-width="400px">
       <v-card>
         <v-card-title>➕ Thêm danh mục</v-card-title>
