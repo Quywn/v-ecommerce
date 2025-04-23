@@ -9,7 +9,7 @@
         <v-btn text @click="goToPath('/home')">Trang chủ</v-btn>
         <v-btn text @click="goToPath('/about')">Giới thiệu</v-btn>
         <v-btn text @click="goToPath('/products')">Sản phẩm</v-btn>
-        <v-btn text @click="goToPath('/voucher')">Khuyến mãi</v-btn>
+        <v-btn text @click="goToPath('/voucher')">Tin tức</v-btn>
       </div>
       <!-- Search and Cart icons -->
       <v-btn icon @click="toggleSearch">
@@ -75,19 +75,8 @@ export default {
   max-width: 200px;
 }
 
-.v-btn {
-  font-size: 18px;
-  font-weight: 600;
-}
-
 /* For small windows */
 @media (max-width: 767px) {
-  .v-app-bar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
   .d-none.d-md-flex {
     display: none !important;
   }
@@ -96,10 +85,6 @@ export default {
 /* For large windows */
 @media (min-width: 768px) {
   .d-none.d-md-flex {
-    display: flex;
-  }
-
-  .d-flex.justify-end {
     display: flex;
   }
 }

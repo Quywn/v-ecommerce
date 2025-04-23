@@ -1,152 +1,132 @@
 <template>
-  <v-container fluid>
-    <!-- SECTION 1: Tổng quan -->
-    <v-row>
-      <v-col
-        cols="12"
-        sm="6"
-        md="3"
-        v-for="card in overviewCards"
-        :key="card.title"
-      >
-        <v-card class="pa-3">
-          <v-icon size="30" color="primary">{{ card.icon }}</v-icon>
-          <div class="headline mt-2">{{ card.value }}</div>
-          <div class="caption">{{ card.title }}</div>
-        </v-card>
-      </v-col>
-    </v-row>
+  <v-footer padless>
+    <v-container>
+      <div class="footer-container">
+        <div class="footer-section">
+          <h3>Giới thiệu</h3>
+          <p>
+            Chúng tôi chuyên cung cấp các loại bánh ngọt, bánh mặn tươi ngon,
+            được làm từ nguyên liệu chất lượng cao.
+          </p>
+        </div>
 
-    <!-- SECTION 2: Tạo tài khoản admin -->
-    <v-card class="my-5">
-      <v-card-title>
-        Quản lý tài khoản admin
-        <v-spacer />
-        <v-btn color="primary" @click="showCreateDialog = true">Tạo mới</v-btn>
-      </v-card-title>
-    </v-card>
+        <div class="footer-section">
+          <h3>Thông tin liên hệ</h3>
+          <p>Địa chỉ: #address</p>
+          <p>Điện thoại: 0xx.xxx.xxx</p>
+          <p>Email: lienhe@banhngon.com</p>
+        </div>
 
-    <!-- Dialog -->
-    <v-dialog v-model="showCreateDialog" max-width="500px">
-      <v-card>
-        <v-card-title>Tạo tài khoản admin</v-card-title>
-        <v-card-text>
-          <v-text-field label="Họ tên" v-model="newAdmin.name" />
-          <v-text-field label="Email" v-model="newAdmin.email" />
-          <v-text-field
-            label="Mật khẩu"
-            v-model="newAdmin.password"
-            type="password"
-          />
-          <v-select
-            label="Vai trò"
-            :items="['Admin', 'Nhân viên']"
-            v-model="newAdmin.role"
-          />
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn text @click="showCreateDialog = false">Hủy</v-btn>
-          <v-btn color="primary" text @click="createAdmin">Tạo</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+        <div class="footer-section">
+          <h3>Shop Online - Truy cập</h3>
+          <ul>
+            <li>
+              <a href="https://www.facebook.com/quyencake" target="_blank">
+                <v-icon>mdi-facebook</v-icon> Facebook
+                <!--todo: check trong vuetify có icon k-->
+              </a>
+            </li>
+            <li>
+              <a href="https://shopee.vn/quyencake" target="_blank">
+                <v-icon>mdi-cart</v-icon> Shopee
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
 
-    <!-- SECTION 3: Lịch sử hoạt động admin -->
-    <v-card class="mb-5">
-      <v-card-title>Lịch sử hoạt động admin</v-card-title>
-      <v-data-table :headers="activityHeaders" :items="adminActivities" dense />
-    </v-card>
-
-    <!-- SECTION 4: Sản phẩm sắp hết hàng -->
-    <v-card class="mb-5">
-      <v-card-title>Sản phẩm sắp hết hàng</v-card-title>
-      <v-data-table :headers="lowStockHeaders" :items="lowStockProducts" dense>
-        <template slot="item.stock" slot-scope="props">
-          <v-chip :color="props.item.stock <= 5 ? 'red' : 'orange'" dark>
-            {{ props.item.stock }}
-          </v-chip>
-        </template>
-      </v-data-table>
-    </v-card>
-  </v-container>
+      <!-- Footer Bottom -->
+      <div class="footer-bottom">
+        <p>
+          &copy; 2025 Bánh Mì 247 | Thơm ngon mỗi ngày 🥖 - Hotline: 0xx.xxx.xxx
+        </p>
+      </div>
+    </v-container>
+  </v-footer>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
-
-export default Vue.extend({
-  name: "AdminDashboard",
-  data() {
-    return {
-      // Tổng quan
-      overviewCards: [
-        { title: "Tổng đơn hàng", value: "1,230", icon: "mdi-cart" },
-        { title: "Doanh thu hôm nay", value: "₫12,000,000", icon: "mdi-cash" },
-        { title: "Khách hàng", value: "845", icon: "mdi-account-group" },
-        { title: "Sản phẩm", value: "320", icon: "mdi-package-variant" },
-      ],
-
-      // Tạo tài khoản admin
-      showCreateDialog: false,
-      newAdmin: {
-        name: "",
-        email: "",
-        password: "",
-        role: "Admin",
-      },
-
-      // Lịch sử hoạt động admin
-      activityHeaders: [
-        { text: "Admin", value: "admin" },
-        { text: "Hành động", value: "action" },
-        { text: "Thời gian", value: "time" },
-      ],
-      adminActivities: [
-        {
-          admin: "Nguyễn Văn A",
-          action: "Tạo sản phẩm",
-          time: "2025-04-15 10:30",
-        },
-        {
-          admin: "Trần Thị B",
-          action: "Xóa đơn hàng",
-          time: "2025-04-15 09:12",
-        },
-      ],
-
-      // Sản phẩm sắp hết hàng
-      lowStockHeaders: [
-        { text: "Tên sản phẩm", value: "name" },
-        { text: "Mã SKU", value: "sku" },
-        { text: "Tồn kho", value: "stock" },
-      ],
-      lowStockProducts: [
-        { name: "Áo sơ mi trắng", sku: "SM001", stock: 3 },
-        { name: "Quần jean xanh", sku: "QJ002", stock: 7 },
-      ],
-    };
-  },
-  methods: {
-    createAdmin() {
-      console.log("Tạo admin mới:", this.newAdmin);
-      // TODO: Gửi API tạo tài khoản
-      this.showCreateDialog = false;
-
-      // Reset form
-      this.newAdmin = {
-        name: "",
-        email: "",
-        password: "",
-        role: "Admin",
-      };
-    },
-  },
-});
+<script>
+export default {
+  name: "FooterComponent",
+};
 </script>
 
 <style scoped>
-.headline {
+footer {
+  background-color: #333 !important;
+  color: white !important;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.footer-section {
+  width: 30%;
+  margin-bottom: 20px;
+}
+
+.footer-section h3 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
   font-weight: bold;
+  color: #ffcc00;
+}
+
+.footer-section p {
+  font-size: 1em;
+  line-height: 1.6;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 10px;
+}
+
+.footer-section a {
+  color: white !important;
+  text-decoration: none;
+  font-size: 1.2em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-section a:hover {
+  color: #ffcc00;
+}
+
+.footer-section a i {
+  font-size: 1.5em;
+}
+
+.footer-bottom {
+  font-size: 0.9em;
+  color: #bbb;
+  text-align: center;
+}
+/* For small windows */
+@media (max-width: 767px) {
+  .footer-container {
+    display: block;
+    text-align: left;
+  }
+
+  .footer-section {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .footer-section h3 {
+    font-size: 1.2em;
+  }
 }
 </style>

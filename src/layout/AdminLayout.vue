@@ -50,6 +50,11 @@ export default {
           route: "/admin/users",
         },
         {
+          title: "Quản lý đơn hàng",
+          icon: "mdi-truck",
+          route: "/admin/orders",
+        },
+        {
           title: "Quản lý hệ thống",
           icon: "mdi-cogs",
           route: "/admin/settings",

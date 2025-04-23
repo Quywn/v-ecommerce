@@ -10,11 +10,13 @@ import ProductManagement from "@/pages/Product/ProductManagementPage.vue";
 import AdminDashboard from "@/pages/AdminDashboardPage.vue";
 import UserManagement from "@/pages/UserManagementPage.vue";
 import Setting from "@/pages/SettingPage.vue";
+import OrderManagement from "@/pages/OrderManagementPage.vue";
 
 Vue.use(VueRouter);
 const routes: RouteConfig[] = [
   {
     path: "/",
+    redirect: "/home",
     component: DefaultLayout,
     children: [
       { path: "home", name: "routes.home", component: Home },
@@ -55,6 +57,11 @@ const routes: RouteConfig[] = [
         name: "routes.settings",
         component: Setting,
       },
+      {
+        path: "orders",
+        name: "routes.orders",
+        component: OrderManagement,
+      },
     ],
   },
   // Other routes: login, register
@@ -65,6 +72,10 @@ const routes: RouteConfig[] = [
   {
     path: "/register",
     component: () => import("@/pages/RegisterPage.vue"),
+  },
+  {
+    path: "*",
+    redirect: "/home",
   },
 ];
 const router = new VueRouter({

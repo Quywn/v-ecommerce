@@ -52,22 +52,17 @@ export default class Login extends Vue {
 
   async handleLogin() {
     try {
-      const res = await axios.post("http://localhost:1234/login", {
+      const role: string = await this.$store.dispatch("auth/login", {
         username: this.username,
         password: this.password,
       });
 
-      const token = res.data.token;
-      localStorage.setItem("token", token);
-      console.log("Response từ BE:", res.data);
-
-      // Gán header mặc định cho các request sau
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-      // ✅ Delay 1 tick để đảm bảo navigation không bị chồng
-      setTimeout(() => {
+      // ✅ Redirect theo role
+      if (role === "admin") {
         this.$router.push("/admin/dashboard");
-      }, 0);
+      } else {
+        this.$router.push("/");
+      }
     } catch (error) {
       alert("Đăng nhập thất bại!");
       console.error(error);
