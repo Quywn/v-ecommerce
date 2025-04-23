@@ -74,6 +74,14 @@ const routes: RouteConfig[] = [
     component: () => import("@/pages/RegisterPage.vue"),
   },
   {
+    path: "/unauthorized",
+    component: () => import("@/pages/Unauthorized.vue"),
+  },
+  {
+    path: "/profile",
+    component: () => import("@/pages/User/ProfilePage.vue"),
+  },
+  {
     path: "*",
     redirect: "/home",
   },

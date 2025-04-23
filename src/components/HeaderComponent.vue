@@ -21,7 +21,7 @@
         <v-badge color="red" content="3" overlap></v-badge>
       </v-btn>
 
-      <v-btn icon @click="goToPath('login')">
+      <v-btn icon @click="handleAccountClick">
         <v-icon>mdi-account</v-icon>
       </v-btn>
       <!-- Mobile Menu Button -->
@@ -64,8 +64,19 @@ export default {
   methods: {
     goToPath(path) {
       if (this.$route.path !== path) {
-        this.$router.push({ path: path });
+        this.$router.push({ path });
       }
+    },
+    handleAccountClick() {
+      const isLoggedIn = this.$store.getters["auth/isLoggedIn"];
+      if (isLoggedIn) {
+        this.$router.push("/profile");
+      } else {
+        this.$router.push("/login");
+      }
+    },
+    toggleCart() {
+      //Todo: handle cart toggle
     },
   },
 };
