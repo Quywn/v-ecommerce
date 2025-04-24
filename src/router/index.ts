@@ -64,7 +64,7 @@ const routes: RouteConfig[] = [
       },
     ],
   },
-  // Other routes: login, register
+  // Other routes: login, register, unauthorized
   {
     path: "/login",
     component: () => import("@/pages/LoginPage.vue"),
@@ -93,14 +93,27 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
 
+  // Login success => next to dashboard
   if (to.path === "/login" && token) {
     next("/admin/dashboard");
-  } else if (to.matched.some((record) => record.meta.requiresAuth) && !token) {
-    next("/login");
-  } else {
-    next();
+    return;
   }
+
+  // Route requires login, token = none
+  if (to.matched.some((record) => record.meta.requiresAuth) && !token) {
+    next("/login");
+    return;
+  }
+
+  // Route requires admin, role != admin
+  if (to.path.startsWith("/admin") && role !== "admin") {
+    next("/unauthorized");
+    return;
+  }
+
+  next();
 });
 
 export default router;

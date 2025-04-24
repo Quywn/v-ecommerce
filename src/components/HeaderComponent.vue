@@ -11,6 +11,7 @@
         <v-btn text @click="goToPath('/products')">Sản phẩm</v-btn>
         <v-btn text @click="goToPath('/voucher')">Tin tức</v-btn>
       </div>
+
       <!-- Search and Cart icons -->
       <v-btn icon @click="toggleSearch">
         <v-icon>mdi-magnify</v-icon>
@@ -21,13 +22,40 @@
         <v-badge color="red" content="3" overlap></v-badge>
       </v-btn>
 
-      <v-btn icon @click="handleAccountClick">
-        <v-icon>mdi-account</v-icon>
+      <!-- User Icon with Dropdown Menu -->
+      <v-menu bottom left v-if="isLoggedIn">
+        <template v-slot:activator="{ on }">
+          <v-btn icon v-on="on">
+            <v-icon>mdi-account</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item @click="goToPath('/profile')">
+            <v-list-item-icon>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Thông tin cá nhân</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="logout">
+            <v-list-item-icon>
+              <v-icon>mdi-logout</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Đăng xuất</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+
+      <!-- If not logged in, show login icon -->
+      <v-btn icon v-else @click="goToPath('/login')">
+        <v-icon>mdi-login</v-icon>
       </v-btn>
+
       <!-- Mobile Menu Button -->
       <v-menu>
         <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on"> <v-icon>mdi-menu</v-icon> </v-btn>
+          <v-btn icon v-on="on">
+            <v-icon>mdi-menu</v-icon>
+          </v-btn>
         </template>
 
         <!-- Mobile Menu Items -->
@@ -58,29 +86,36 @@
     </v-dialog>
   </v-layout>
 </template>
+
 <script>
+import { mapGetters } from "vuex"; // Để sử dụng getter từ Vuex
+
 export default {
   name: "HeaderComponent",
+  computed: {
+    ...mapGetters("auth", ["isLoggedIn"]), // Lấy isLoggedIn từ Vuex
+  },
   methods: {
     goToPath(path) {
       if (this.$route.path !== path) {
         this.$router.push({ path });
       }
     },
-    handleAccountClick() {
-      const isLoggedIn = this.$store.getters["auth/isLoggedIn"];
-      if (isLoggedIn) {
-        this.$router.push("/profile");
-      } else {
-        this.$router.push("/login");
-      }
+    logout() {
+      // Logic đăng xuất, bạn có thể gọi action logout từ Vuex
+      this.$store.dispatch("auth/logout");
+      this.$router.push("/login");
+    },
+    toggleSearch() {
+      // Todo: Handle search toggle
     },
     toggleCart() {
-      //Todo: handle cart toggle
+      // Todo: Handle cart toggle
     },
   },
 };
 </script>
+
 <style scoped>
 .v-app-bar .logo {
   max-width: 200px;
