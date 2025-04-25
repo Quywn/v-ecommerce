@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
+import store from "@/store";
 
 import DefaultLayout from "@/layout/DefaultLayout.vue";
 import AdminLayout from "@/layout/AdminLayout.vue";
@@ -30,12 +31,22 @@ const routes: RouteConfig[] = [
         name: "routes.about",
         component: () => import("@/pages/AboutPage.vue"),
       },
+      {
+        path: "products/:id",
+        name: "routes.product/:id",
+        component: import("@/pages/Product/ProductDetailPage.vue"),
+      },
+      {
+        path: "discount",
+        name: "routes.discount",
+        component: () => import("@/pages/DiscountPage.vue"),
+      },
     ],
   },
   {
     path: "/admin",
     component: AdminLayout,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, requiresAdmin: true },
     children: [
       {
         path: "dashboard",
@@ -78,8 +89,12 @@ const routes: RouteConfig[] = [
     component: () => import("@/pages/Unauthorized.vue"),
   },
   {
-    path: "/profile",
+    path: "/user/profile",
     component: () => import("@/pages/User/ProfilePage.vue"),
+  },
+  {
+    path: "/user/orders",
+    component: () => import("@/pages/User/OrdersPage.vue"),
   },
   {
     path: "*",
@@ -91,29 +106,24 @@ const router = new VueRouter({
   routes,
 });
 
+// Before to route
 router.beforeEach((to, from, next) => {
-  const token = localStorage.getItem("token");
-  const role = localStorage.getItem("role");
+  const token = store.state.auth.token; // Get token from Vuex
+  const role = store.getters["auth/userRole"]; // Get role from Vuex
 
-  // Login success => next to dashboard
-  if (to.path === "/login" && token) {
-    next("/admin/dashboard");
-    return;
-  }
-
-  // Route requires login, token = none
-  if (to.matched.some((record) => record.meta.requiresAuth) && !token) {
-    next("/login");
-    return;
-  }
-
-  // Route requires admin, role != admin
-  if (to.path.startsWith("/admin") && role !== "admin") {
+  // Requires admin, role != admin
+  if (
+    to.matched.some((record) => record.meta.requiresAdmin) &&
+    role !== "admin"
+  ) {
     next("/unauthorized");
-    return;
   }
-
-  next();
+  // need login, no token
+  else if (to.matched.some((record) => record.meta.requiresAuth) && !token) {
+    next("/login");
+  } else {
+    next();
+  }
 });
 
 export default router;

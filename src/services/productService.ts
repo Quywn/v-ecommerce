@@ -1,9 +1,9 @@
-import axios from "@/plugins/axios"; // Giả sử bạn đã cấu hình axios trong plugins
+import axios from "@/plugins/axios";
 
 import { Product } from "@/models/product";
 
 export default {
-  // Lấy tất cả sản phẩm
+  // get all products
   getAll(): Promise<Product[]> {
     return axios
       .get("/general/products")
@@ -14,7 +14,7 @@ export default {
       });
   },
 
-  // Thêm mới sản phẩm
+  // Add new product
   create(product: Product): Promise<Product> {
     return axios
       .post("/admin/product/create", product)
@@ -25,7 +25,7 @@ export default {
       });
   },
 
-  // Cập nhật sản phẩm
+  // Update product
   update(product: Product): Promise<Product> {
     return axios
       .put("/admin/product/update", product)
@@ -36,7 +36,7 @@ export default {
       });
   },
 
-  // Xóa sản phẩm
+  // Delete product
   delete(productCode: string): Promise<void> {
     return (
       axios
@@ -48,5 +48,11 @@ export default {
           throw error;
         })
     );
+  },
+  // Search product
+  filterLocal(products: Product[], keyword: string): Product[] {
+    if (!keyword) return products;
+    const lower = keyword.toLowerCase();
+    return products.filter((p) => p.productName.toLowerCase().includes(lower));
   },
 };

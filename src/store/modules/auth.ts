@@ -1,5 +1,4 @@
 import { Module, ActionTree, MutationTree, GetterTree } from "vuex";
-
 import { AuthState } from "@/models/authState";
 
 const state: AuthState = {
@@ -27,7 +26,7 @@ const actions: ActionTree<AuthState, any> = {
     const axios = (await import("@/plugins/axios")).default;
     const res = await axios.post("/login", { username, password });
 
-    const { token, role } = res.data;
+    const { token, role } = res.data; // Get token and role from API
     commit("setAuth", { token, role });
     return role;
   },

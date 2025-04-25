@@ -30,12 +30,23 @@
           </v-btn>
         </template>
         <v-list>
-          <v-list-item @click="goToPath('/profile')">
+          <!-- Profile -->
+          <v-list-item @click="goToPath('/user/profile')">
             <v-list-item-icon>
-              <v-icon>mdi-account-circle</v-icon>
+              <v-icon>mdi-account-edit</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>Thông tin cá nhân</v-list-item-title>
+            <v-list-item-title>Tài khoản</v-list-item-title>
           </v-list-item>
+
+          <!-- Orders -->
+          <v-list-item @click="goToPath('/user/orders')">
+            <v-list-item-icon>
+              <v-icon>mdi-package-variant-closed</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Đơn hàng</v-list-item-title>
+          </v-list-item>
+
+          <!-- Log out -->
           <v-list-item @click="logout">
             <v-list-item-icon>
               <v-icon>mdi-logout</v-icon>
@@ -87,33 +98,42 @@
   </v-layout>
 </template>
 
-<script>
-import { mapGetters } from "vuex"; // Để sử dụng getter từ Vuex
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import { Product } from "@/models/product";
+import { Getter } from "vuex-class";
+import productService from "@/services/productService";
 
-export default {
+@Component({
   name: "HeaderComponent",
-  computed: {
-    ...mapGetters("auth", ["isLoggedIn"]), // Lấy isLoggedIn từ Vuex
-  },
-  methods: {
-    goToPath(path) {
-      if (this.$route.path !== path) {
-        this.$router.push({ path });
-      }
-    },
-    logout() {
-      // Logic đăng xuất, bạn có thể gọi action logout từ Vuex
-      this.$store.dispatch("auth/logout");
-      this.$router.push("/login");
-    },
-    toggleSearch() {
-      // Todo: Handle search toggle
-    },
-    toggleCart() {
-      // Todo: Handle cart toggle
-    },
-  },
-};
+})
+export default class HeaderComponent extends Vue {
+  @Getter("isLoggedIn", { namespace: "auth" }) isLoggedIn!: boolean;
+  // Data
+  searchDialog = false;
+  searchQuery = "";
+  products: Product[] = [];
+
+  // Methods
+  goToPath(path: string): void {
+    if (this.$route.path !== path) {
+      this.$router.push({ path });
+    }
+  }
+
+  logout(): void {
+    this.$store.dispatch("auth/logout");
+    this.$router.push("/login");
+  }
+
+  toggleSearch(): void {
+    // Todo: Handle search toggle
+  }
+
+  toggleCart(): void {
+    // Todo: Handle cart toggle
+  }
+}
 </script>
 
 <style scoped>

@@ -5,9 +5,9 @@ declare module "vuetify/lib/framework" {
   export default Vuetify;
 }
 
-// // src/shims-vue.d.ts
-// declare module "*.vue" {
-//   import { DefineComponent } from "vue";
-//   const component: DefineComponent<unknown, unknown, any>;
-//   export default component;
-// }
+// src/shims-vue.d.ts
+declare module "*.vue" {
+  import { DefineComponent } from "vue";
+  const component: DefineComponent<unknown, unknown, any>;
+  export default component;
+}

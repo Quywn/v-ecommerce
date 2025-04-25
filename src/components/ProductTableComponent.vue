@@ -28,7 +28,7 @@
       </template>
     </v-data-table>
 
-    <!-- Dialog thêm/sửa sản phẩm -->
+    <!-- Dialog add/edit product -->
     <v-dialog v-model="dialog" max-width="600px">
       <v-card>
         <v-card-title>
@@ -73,7 +73,7 @@
       </v-card>
     </v-dialog>
 
-    <!-- Dialog xác nhận xóa -->
+    <!-- Dialog cf delete -->
     <v-dialog v-model="confirm" max-width="400px">
       <v-card>
         <v-card-title>Xác nhận xóa</v-card-title>
@@ -96,14 +96,15 @@ import { Vue, Component } from "vue-property-decorator";
 import { Product } from "@/models/product";
 import { Category } from "@/models/category";
 import categoryService from "@/services/categoryService";
-import { Action, State } from "vuex-class"; // Import vuex-class decorators
+import { Action, State } from "vuex-class";
+import productService from "@/services/productService";
 
 @Component
 export default class ProductTableComponent extends Vue {
-  // State lấy từ Vuex
+  // State from  Vuex
   @State("products", { namespace: "product" }) products!: Product[];
 
-  // Actions lấy từ Vuex
+  // Actions from Vuex
   @Action("fetchProducts", { namespace: "product" })
   fetchProducts!: () => Promise<void>;
   @Action("createProduct", { namespace: "product" }) createProduct!: (
@@ -132,16 +133,12 @@ export default class ProductTableComponent extends Vue {
     { text: "Hành động", value: "actions", sortable: false },
   ];
 
-  // Computed: lọc sản phẩm theo từ khóa tìm kiếm
+  // Computed: filter Product by name
   get filteredProducts(): Product[] {
-    if (!this.search) return this.products;
-    const keyword = this.search.toLowerCase();
-    return this.products.filter((p) =>
-      p.productName.toLowerCase().includes(keyword)
-    );
+    return productService.filterLocal(this.products, this.search);
   }
 
-  // Reset form mặc định
+  // Reset default form
   resetItem(): Product {
     return {
       productCode: "",
