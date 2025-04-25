@@ -45,7 +45,16 @@
             </v-list-item-icon>
             <v-list-item-title>Đơn hàng</v-list-item-title>
           </v-list-item>
-
+          <!-- ADMIN MENU -->
+          <v-list-item
+            v-if="role === 'admin'"
+            @click="goToPath('/admin/dashboard')"
+          >
+            <v-list-item-icon>
+              <v-icon>mdi-cogs</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Quản lý website</v-list-item-title>
+          </v-list-item>
           <!-- Log out -->
           <v-list-item @click="logout">
             <v-list-item-icon>
@@ -101,14 +110,16 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { Product } from "@/models/product";
-import { Getter } from "vuex-class";
 import productService from "@/services/productService";
+import { Getter } from "vuex-class";
 
 @Component({
   name: "HeaderComponent",
 })
 export default class HeaderComponent extends Vue {
-  @Getter("isLoggedIn", { namespace: "auth" }) isLoggedIn!: boolean;
+  @Getter("auth/username") username!: string;
+  @Getter("auth/userRole") role!: string;
+  @Getter("auth/isLoggedIn") isLoggedIn!: boolean;
   // Data
   searchDialog = false;
   searchQuery = "";

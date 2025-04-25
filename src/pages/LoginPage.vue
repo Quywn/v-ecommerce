@@ -32,19 +32,12 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import axios from "axios";
 
 @Component
-export default class Login extends Vue {
+export default class LoginPage extends Vue {
   username = "";
   password = "";
   showPassword = false;
-  usernameRules = [(v: string) => !!v || "Email không được để trống"];
-
-  passwordRules = [
-    (v: string) => !!v || "Mật khẩu không được để trống",
-    (v: string) => v.length >= 6 || "Mật khẩu tối thiểu 6 ký tự",
-  ];
 
   togglePassword() {
     this.showPassword = !this.showPassword;
@@ -56,16 +49,10 @@ export default class Login extends Vue {
         username: this.username,
         password: this.password,
       });
-
-      // ✅ Redirect theo role
-      if (role === "admin") {
-        this.$router.push("/admin/dashboard");
-      } else {
-        this.$router.push("/");
-      }
+      this.$router.push("/");
     } catch (error) {
-      alert("Đăng nhập thất bại!");
-      console.error(error);
+      console.error("Login error:", error);
+      alert("Đăng nhập thất bại. Vui lòng kiểm tra tài khoản/mật khẩu.");
     }
   }
 
