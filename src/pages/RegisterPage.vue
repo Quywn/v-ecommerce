@@ -52,19 +52,16 @@ export default class Register extends Vue {
   password = "";
   confirmPassword = "";
 
-  // Validation cho Email
   emailRules = [
     (v: string) => !!v || "Email không được để trống",
     (v: string) => /.+@.+\..+/.test(v) || "Email không hợp lệ",
   ];
 
-  // Validation cho Mật khẩu
   passwordRules = [
     (v: string) => !!v || "Mật khẩu không được để trống",
     (v: string) => v.length >= 6 || "Mật khẩu tối thiểu 6 ký tự",
   ];
 
-  // ✅ CHUYỂN THÀNH GETTER
   get confirmPasswordRules() {
     return [
       (v: string) => !!v || "Xác nhận mật khẩu không được để trống",
@@ -73,11 +70,10 @@ export default class Register extends Vue {
     ];
   }
 
-  // Hàm đăng ký
+  // Register
   async handleRegister() {
     if ((this.$refs.form as any).validate()) {
       console.log("Đăng ký:", this.email, this.password);
-      // Gửi dữ liệu đăng ký đến backend nếu cần
       try {
         await axios.post("http://localhost:1234/register", {
           username: this.username,

@@ -35,17 +35,17 @@ const actions: ActionTree<AuthState, any> = {
 
     const token = res.data.token;
 
-    // Giải mã JWT
+    // Decode JWT
     const decoded = jwtDecode<JwtPayload>(token);
 
-    // Lấy thông tin username và authorities (role)
+    // Get username và authorities (role)
     username = decoded.sub; // sub chứa username
     const authorities = decoded.authorities; // authorities chứa các role
 
-    // Coi như đầu tiên là role chính
+    // First Role = Primary role
     const role = authorities.includes("ROLE_ADMIN") ? "admin" : "user";
 
-    // Cập nhật vào Vuex
+    // Commit to Vuex
     commit("setAuth", { token, role, username });
 
     return role;
