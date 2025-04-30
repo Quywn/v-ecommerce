@@ -107,23 +107,36 @@ const router = new VueRouter({
 });
 
 // Before to route
-router.beforeEach((to, from, next) => {
-  const token = store.state.auth.token; // Get token from Vuex
-  const role = store.getters["auth/userRole"]; // Get role from Vuex
+router.beforeEach(async (to, from, next) => {
+  const token = store.state.auth.token;
+  const role = store.state.auth.role;
 
-  // Requires admin, role != admin
+  // Nếu chưa load role (ví dụ sau F5), thì init lại từ token
+  if (token && !role) {
+    await store.dispatch("auth/initAuth");
+  }
+
+  // Kiểm tra lại sau khi init
+  const updatedRole = store.state.auth.role;
+  const isLoggedIn = !!store.state.auth.token;
+
+  // 1. Cần admin quyền nhưng không phải admin
   if (
     to.matched.some((record) => record.meta.requiresAdmin) &&
-    role !== "admin"
+    updatedRole !== "admin"
   ) {
     next("/unauthorized");
   }
-  // need login, no token
-  else if (to.matched.some((record) => record.meta.requiresAuth) && !token) {
+  // 2. Cần đăng nhập nhưng chưa đăng nhập
+  else if (
+    to.matched.some((record) => record.meta.requiresAuth) &&
+    !isLoggedIn
+  ) {
     next("/login");
-  } else {
+  }
+  // 3. Cho qua
+  else {
     next();
   }
 });
-
 export default router;

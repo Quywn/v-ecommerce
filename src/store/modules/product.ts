@@ -7,13 +7,13 @@ export default class ProductModule extends VuexModule {
   // State
   products: Product[] = [];
 
-  // Mutation để cập nhật danh sách sản phẩm
+  //Todo: Check mutation update productList
   @Mutation
   setProducts(products: Product[]) {
     this.products = products;
   }
 
-  // Action để lấy dữ liệu sản phẩm
+  // Action fetch Products
   @Action
   async fetchProducts() {
     try {
@@ -24,7 +24,7 @@ export default class ProductModule extends VuexModule {
     }
   }
 
-  // Action để thêm sản phẩm mới
+  // Action create Product
   @Action
   async createProduct(product: Product) {
     try {
@@ -35,7 +35,7 @@ export default class ProductModule extends VuexModule {
     }
   }
 
-  // Action để sửa sản phẩm
+  // Action update Product
   @Action
   async updateProduct(product: Product) {
     try {

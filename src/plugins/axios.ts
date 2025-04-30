@@ -3,7 +3,7 @@ import store from "@/store";
 import router from "@/router";
 
 const instance = axios.create({
-  baseURL: "http://localhost:1234", // chỉnh baseURL nếu cần
+  baseURL: "http://localhost:1234",
 });
 
 instance.interceptors.request.use((config) => {
@@ -14,7 +14,7 @@ instance.interceptors.request.use((config) => {
   return config;
 });
 
-// 👉 Bắt lỗi 401 để logout tự động
+// 👉 catch 401 Error to automatic logout
 instance.interceptors.response.use(
   (response) => response,
   (error) => {
