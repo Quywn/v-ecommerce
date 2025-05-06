@@ -14,7 +14,7 @@ instance.interceptors.request.use((config) => {
   return config;
 });
 
-// 👉 catch 401 Error to automatic logout
+// Catch 401 Error to automatic logout
 instance.interceptors.response.use(
   (response) => response,
   (error) => {

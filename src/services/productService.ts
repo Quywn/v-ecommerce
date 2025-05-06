@@ -1,5 +1,4 @@
 import axios from "@/plugins/axios";
-
 import { Product } from "@/models/product";
 
 export default {
@@ -49,7 +48,19 @@ export default {
         })
     );
   },
+
   // Search product
+  searchProducts(keyword: string): Promise<Product[]> {
+    return axios
+      .get("/general/products/search", { params: { keyword } })
+      .then((response) => response.data)
+      .catch((error) => {
+        console.error("Lỗi khi tìm kiếm sản phẩm:", error);
+        throw error;
+      });
+  },
+
+  // filter local (todo: check needed)
   filterLocal(products: Product[], keyword: string): Product[] {
     if (!keyword) return products;
     const lower = keyword.toLowerCase();

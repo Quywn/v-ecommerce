@@ -17,9 +17,10 @@
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
 
-      <v-btn icon @click="toggleCart">
-        <v-icon>mdi-cart</v-icon>
-        <v-badge color="red" content="3" overlap></v-badge>
+      <v-btn icon to="/cart">
+        <v-badge :content="cartCount" color="red" overlap>
+          <v-icon>mdi-cart</v-icon>
+        </v-badge>
       </v-btn>
 
       <!-- User Icon with Dropdown Menu -->
@@ -97,8 +98,47 @@
             v-model="searchQuery"
             label="Nhập từ khóa"
             outlined
+            @keyup.enter="performSearch"
           ></v-text-field>
+
+          <!-- Popular search -->
+          <div class="mt-4">
+            <div class="subtitle-2 font-weight-bold mb-2">
+              Từ khóa phổ biến:
+            </div>
+            <v-chip-group column>
+              <v-chip
+                v-for="(keyword, index) in popularKeywords"
+                :key="'popular-' + index"
+                @click="selectKeyword(keyword)"
+                outlined
+                small
+              >
+                {{ keyword }}
+              </v-chip>
+            </v-chip-group>
+          </div>
+
+          <!-- Recent Search -->
+          <div class="mt-4">
+            <div class="subtitle-2 font-weight-bold mb-2">
+              Tìm kiếm gần đây:
+            </div>
+            <v-chip-group column>
+              <v-chip
+                v-for="(keyword, index) in recentKeywords"
+                :key="'recent-' + index"
+                @click="selectKeyword(keyword)"
+                small
+                close
+                @click:close="removeRecent(index)"
+              >
+                {{ keyword }}
+              </v-chip>
+            </v-chip-group>
+          </div>
         </v-card-text>
+
         <v-card-actions>
           <v-btn text @click="searchDialog = false">Đóng</v-btn>
         </v-card-actions>
@@ -120,12 +160,40 @@ export default class HeaderComponent extends Vue {
   @Getter("auth/username") username!: string;
   @Getter("auth/userRole") role!: string;
   @Getter("auth/isLoggedIn") isLoggedIn!: boolean;
+  @Getter("cart/cartItemCount") cartCount!: number;
   // Data
   searchDialog = false;
   searchQuery = "";
+  popularKeywords: string[] = ["bánh kem", "bánh mì"];
+  recentKeywords: string[] = [];
   products: Product[] = [];
 
   // Methods
+  performSearch(): void {
+    if (!this.searchQuery.trim()) return;
+
+    if (!this.recentKeywords.includes(this.searchQuery)) {
+      this.recentKeywords.unshift(this.searchQuery);
+      // 5 keywords
+      if (this.recentKeywords.length > 5) {
+        this.recentKeywords.pop();
+      }
+    }
+
+    //todo Thực hiện điều hướng sang trang kết quả tìm kiếm
+    this.$router.push({ path: "/search", query: { q: this.searchQuery } });
+    this.searchDialog = false;
+  }
+
+  selectKeyword(keyword: string): void {
+    this.searchQuery = keyword;
+    this.performSearch();
+  }
+
+  removeRecent(index: number): void {
+    this.recentKeywords.splice(index, 1);
+  }
+
   goToPath(path: string): void {
     if (this.$route.path !== path) {
       this.$router.push({ path });
@@ -138,11 +206,7 @@ export default class HeaderComponent extends Vue {
   }
 
   toggleSearch(): void {
-    // Todo: Handle search toggle
-  }
-
-  toggleCart(): void {
-    // Todo: Handle cart toggle
+    this.searchDialog = true;
   }
 }
 </script>

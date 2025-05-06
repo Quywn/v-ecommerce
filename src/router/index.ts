@@ -97,6 +97,11 @@ const routes: RouteConfig[] = [
     component: () => import("@/pages/User/OrdersPage.vue"),
   },
   {
+    path: "/search",
+    name: "SearchResults",
+    component: () => import("@/pages/SearchResults.vue"),
+  },
+  {
     path: "*",
     redirect: "/home",
   },
