@@ -32,14 +32,14 @@ const routes: RouteConfig[] = [
         component: () => import("@/pages/AboutPage.vue"),
       },
       {
-        path: "products/:id",
+        path: "categories",
         name: "routes.product/:id",
-        component: import("@/pages/Product/ProductDetailPage.vue"),
+        component: import("@/pages/Product/CategoryPage.vue"),
       },
       {
-        path: "discount",
-        name: "routes.discount",
-        component: () => import("@/pages/DiscountPage.vue"),
+        path: "info",
+        name: "routes.info",
+        component: () => import("@/pages/NewsPage.vue"),
       },
     ],
   },
@@ -116,30 +116,30 @@ router.beforeEach(async (to, from, next) => {
   const token = store.state.auth.token;
   const role = store.state.auth.role;
 
-  // Nếu chưa load role (ví dụ sau F5), thì init lại từ token
+  // If !role (when F5), -> init role from token
   if (token && !role) {
     await store.dispatch("auth/initAuth");
   }
 
-  // Kiểm tra lại sau khi init
+  // Check role init
   const updatedRole = store.state.auth.role;
   const isLoggedIn = !!store.state.auth.token;
 
-  // 1. Cần admin quyền nhưng không phải admin
+  // 1. need admin but !admin
   if (
     to.matched.some((record) => record.meta.requiresAdmin) &&
     updatedRole !== "admin"
   ) {
     next("/unauthorized");
   }
-  // 2. Cần đăng nhập nhưng chưa đăng nhập
+  // 2. need login but !login
   else if (
     to.matched.some((record) => record.meta.requiresAuth) &&
     !isLoggedIn
   ) {
     next("/login");
   }
-  // 3. Cho qua
+  // 3. next
   else {
     next();
   }

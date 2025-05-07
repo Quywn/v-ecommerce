@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="custom-background">
     <!-- About Section -->
     <v-container class="py-10">
       <v-row>
@@ -22,7 +22,6 @@
         </v-col>
       </v-row>
 
-      <!-- Giá trị cốt lõi -->
       <v-row class="my-12" justify="center">
         <v-col cols="12">
           <h2 class="text-h5 text-center font-weight-medium mb-6">
@@ -83,3 +82,9 @@ const feedbacks = [
   { name: "Hà My", comment: "Mình ăn suốt mấy tháng nay rồi, rất hài lòng!" },
 ];
 </script>
+
+<style scoped>
+.custom-background {
+  background-color: #fff3e0;
+}
+</style>

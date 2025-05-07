@@ -46,7 +46,7 @@ export default class ProductModule extends VuexModule {
     }
   }
 
-  // Action để xóa sản phẩm
+  // Action delete product
   @Action
   async deleteProduct(productCode: string) {
     try {

@@ -23,7 +23,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <!-- Nội dung chính của trang -->
+    <!-- Main content -->
     <v-main>
       <v-container fluid>
         <router-view></router-view>

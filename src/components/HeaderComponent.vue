@@ -8,8 +8,8 @@
       <div class="d-none d-md-flex justify-center flex-grow-1">
         <v-btn text @click="goToPath('/home')">Trang chủ</v-btn>
         <v-btn text @click="goToPath('/about')">Giới thiệu</v-btn>
-        <v-btn text @click="goToPath('/products')">Sản phẩm</v-btn>
-        <v-btn text @click="goToPath('/voucher')">Tin tức</v-btn>
+        <v-btn text @click="goToPath('/info')">Tin tức</v-btn>
+        <v-btn text @click="goToPath('/categories')">Danh mục</v-btn>
       </div>
 
       <!-- Search and Cart icons -->
@@ -83,8 +83,8 @@
         <v-list>
           <v-list-item @click="goToPath('/home')">Trang chủ</v-list-item>
           <v-list-item @click="goToPath('/about')">Giới thiệu</v-list-item>
-          <v-list-item @click="goToPath('/products')">Sản phẩm</v-list-item>
-          <v-list-item @click="goToPath('/voucher')">Khuyến mãi</v-list-item>
+          <v-list-item @click="goToPath('/info')">Tin tức</v-list-item>
+          <v-list-item @click="goToPath('/categories')">Danh mục</v-list-item>
         </v-list>
       </v-menu>
     </v-app-bar>
@@ -150,7 +150,6 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { Product } from "@/models/product";
-import productService from "@/services/productService";
 import { Getter } from "vuex-class";
 
 @Component({
@@ -164,7 +163,7 @@ export default class HeaderComponent extends Vue {
   // Data
   searchDialog = false;
   searchQuery = "";
-  popularKeywords: string[] = ["bánh kem", "bánh mì"];
+  popularKeywords: string[] = ["Juice", "Cupcakes"];
   recentKeywords: string[] = [];
   products: Product[] = [];
 

@@ -154,12 +154,11 @@ export default class ProductTableComponent extends Vue {
     };
   }
 
-  // Khi component được mount
   mounted() {
     this.fetchProducts();
   }
 
-  // Lưu sản phẩm
+  // Save product
   async save() {
     if (this.editedItem.productCode) {
       await this.updateProduct(this.editedItem);
@@ -169,7 +168,7 @@ export default class ProductTableComponent extends Vue {
     this.dialog = false;
   }
 
-  // Xóa sản phẩm
+  // Delete product
   async deleteItem() {
     if (this.toDelete && this.toDelete.productCode) {
       await this.deleteProduct(this.toDelete.productCode);
@@ -182,7 +181,7 @@ export default class ProductTableComponent extends Vue {
     this.confirm = true; // open dialog confirm
   }
 
-  // Mở dialog thêm/sửa sản phẩm
+  // Add/Update product
   openDialog(item: Product | null = null) {
     this.editedItem = item ? { ...item } : this.resetItem();
     this.dialog = true;

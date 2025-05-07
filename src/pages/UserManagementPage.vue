@@ -1,14 +1,14 @@
 <template>
   <v-container fluid>
-    <!-- SECTION: Tabs phân loại -->
+    <!-- SECTION: Active Tabs: Admin User -->
     <v-tabs v-model="activeTab" background-color="primary" dark>
       <v-tab>Khách hàng</v-tab>
-      <v-tab>Admin / Nhân viên</v-tab>
+      <v-tab>Admin</v-tab>
     </v-tabs>
 
-    <!-- SECTION: Danh sách User -->
+    <!-- SECTION: User List -->
     <v-tabs-items v-model="activeTab">
-      <!-- TAB 1: Khách hàng -->
+      <!-- TAB 1: User -->
       <v-tab-item>
         <v-card class="my-5">
           <v-card-title>
@@ -36,11 +36,11 @@
         </v-card>
       </v-tab-item>
 
-      <!-- TAB 2: Admin / Nhân viên -->
+      <!-- TAB 2: Admin -->
       <v-tab-item>
         <v-card class="my-5">
           <v-card-title>
-            Danh sách admin / nhân viên
+            Danh sách admin
             <v-spacer />
             <v-text-field
               v-model="searchAdmin"
@@ -82,6 +82,7 @@ interface User {
 export default Vue.extend({
   name: "AdminUser",
   data() {
+    //todo API /admin/user
     return {
       activeTab: 0,
       searchCustomer: "",

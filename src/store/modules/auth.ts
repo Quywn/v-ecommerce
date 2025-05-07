@@ -35,7 +35,7 @@ const actions: ActionTree<AuthState, any> = {
 
     const token = res.data.token;
 
-    // Gọi mutation để set token và decode info
+    // Call mutation to set token + decode info
     commit("setToken", token);
 
     return jwtDecode<JwtPayload>(token).authorities.includes("ROLE_ADMIN")

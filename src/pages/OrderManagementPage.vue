@@ -52,7 +52,7 @@
           <p>
             <strong>Tổng tiền:</strong> {{ selectedOrder?.total | currency }}
           </p>
-          <!-- Bạn có thể thêm chi tiết sản phẩm ở đây -->
+          <!-- todo: Product Detail -->
         </v-card-text>
         <v-card-actions>
           <v-spacer />
@@ -107,12 +107,12 @@ export default Vue.extend({
       this.detailDialog = true;
     },
     updateOrderStatus(order: Order) {
-      // Gửi API cập nhật trạng thái
+      // todo API BE /order/update
       console.log(`Cập nhật trạng thái đơn ${order.id} thành ${order.status}`);
       this.$emit("show-toast", `Đã cập nhật trạng thái đơn ${order.id}`);
     },
     fetchOrders() {
-      // Gọi API để lấy danh sách đơn hàng (demo fake)
+      // todo Gọi API BE GET /orders (demo fake)
       this.orders = [
         {
           id: "1",
