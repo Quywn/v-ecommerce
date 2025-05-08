@@ -13,13 +13,40 @@
             <v-col cols="3">
               <v-img :src="item.product.imageUrl" height="100px"></v-img>
             </v-col>
+
             <v-col cols="6">
               <v-card-title>{{ item.product.productName }}</v-card-title>
-              <v-card-subtitle>{{
-                formatCurrency(item.product.price)
-              }}</v-card-subtitle>
-              <v-card-text>Số lượng: {{ item.quantity }}</v-card-text>
+              <v-card-subtitle
+                >Đơn giá:
+                {{ formatCurrency(item.product.price) }}</v-card-subtitle
+              >
+
+              <div class="d-flex align-center">
+                <v-btn
+                  small
+                  @click="changeQuantity(item, item.quantity - 1)"
+                  :disabled="item.quantity <= 1"
+                  >-</v-btn
+                >
+                <v-text-field
+                  v-model.number="item.quantity"
+                  type="number"
+                  min="1"
+                  class="mx-2"
+                  style="max-width: 60px"
+                  @blur="updateQuantity(item)"
+                />
+                <v-btn small @click="changeQuantity(item, item.quantity + 1)"
+                  >+</v-btn
+                >
+              </div>
+
+              <div>
+                Thành tiền:
+                {{ formatCurrency(item.product.price * item.quantity) }}
+              </div>
             </v-col>
+
             <v-col cols="3" class="text-right">
               <v-btn icon @click="removeItem(item.product.productCode)">
                 <v-icon color="red">mdi-delete</v-icon>
@@ -86,6 +113,20 @@ export default class CartPage extends Vue {
   removeItem(productCode: string) {
     this.$store.dispatch("cart/removeProductFromCart", {
       productName: productCode,
+      username: this.username,
+    });
+  }
+
+  changeQuantity(item: CartItem, newQuantity: number) {
+    if (newQuantity < 1) return;
+    item.quantity = newQuantity;
+    this.updateQuantity(item);
+  }
+
+  updateQuantity(item: CartItem) {
+    this.$store.dispatch("cart/updateProductQuantity", {
+      productCode: item.product.productCode,
+      quantity: item.quantity,
       username: this.username,
     });
   }

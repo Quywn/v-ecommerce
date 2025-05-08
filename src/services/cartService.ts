@@ -25,6 +25,17 @@ export default {
       });
   },
 
+  // Update Product Quantity
+  async updateProductQuantity(
+    productCode: string,
+    username: string,
+    quantity: number
+  ): Promise<void> {
+    return axios.put(`/cart/${username}/product/${productCode}`, {
+      quantity,
+    });
+  },
+
   // Thêm sản phẩm vào giỏ hàng
   addProductToCart(product: Product): Promise<string> {
     return axios

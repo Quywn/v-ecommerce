@@ -50,6 +50,23 @@ export default class CartModule extends VuexModule {
   }
 
   @Action
+  async updateProductQuantity(payload: {
+    productCode: string;
+    username: string;
+    quantity: number;
+  }) {
+    // Gọi API
+    await cartService.updateProductQuantity(
+      payload.productCode,
+      payload.username,
+      payload.quantity
+    );
+
+    const cart = await cartService.getCartByUser();
+    this.context.commit("setCart", cart);
+  }
+
+  @Action
   async removeProductFromCart(payload: {
     username: string;
     productName: string;
