@@ -12,7 +12,7 @@
         <v-btn text @click="goToPath('/categories')">Danh mục</v-btn>
       </div>
 
-      <!-- Search and Cart icons -->
+      <!-- Search and CartDTO icons -->
       <v-btn icon @click="toggleSearch">
         <v-icon>mdi-magnify</v-icon>
       </v-btn>

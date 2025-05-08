@@ -37,7 +37,7 @@
         >
           <v-card class="hover-card" outlined>
             <v-img
-              :src="product.image"
+              :src="product.imageUrl"
               height="200px"
               class="product-image"
             ></v-img>
@@ -68,13 +68,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import axios from "axios";
-
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  image: string;
-}
+import { Product } from "@/models/product";
 
 export default defineComponent({
   name: "HomePage",
@@ -100,21 +94,34 @@ export default defineComponent({
         );
 
         this.products = response.data.map((item: any) => ({
-          id: item.productCode,
-          name: item.productName,
+          productCode: item.productCode,
+          productName: item.productName,
           price: item.price,
-          image: item.imageUrl || "https://via.placeholder.com/200", // fallback image
+          imageUrl: item.imageUrl || "https://via.placeholder.com/200", // fallback image
         }));
       } catch (error) {
-        console.error("Lỗi khi lấy danh sách sản phẩm bán chạy:", error);
+        console.error("Lỗi khi lấy danh sách sản phẩm:", error);
       } finally {
         this.loading = false;
       }
     },
+
     addToCart(product: Product) {
-      this.$store.dispatch("cart/addToCart", product);
-      console.log("Đã thêm vào giỏ hàng!"); // todo: Chuyển sang dùng toast
+      if (!this.$store.getters["auth/isLoggedIn"]) {
+        this.$toast.error("Bạn cần đăng nhập để thêm vào giỏ hàng.");
+        return;
+      }
+
+      this.$store
+        .dispatch("cart/addOneProductToCart", product)
+        .then(() => {
+          this.$toast.success("Đã thêm sản phẩm vào giỏ hàng!");
+        })
+        .catch(() => {
+          this.$toast.error("Không thể thêm sản phẩm vào giỏ hàng.");
+        });
     },
+
     formatCurrency(value: number) {
       return value.toLocaleString("vi-VN", {
         style: "currency",

@@ -9,9 +9,9 @@ import Home from "@/pages/HomePage.vue";
 import ProductDetail from "@/pages/Product/ProductDetailPage.vue";
 import ProductManagement from "@/pages/Product/ProductManagementPage.vue";
 import AdminDashboard from "@/pages/AdminDashboardPage.vue";
-import UserManagement from "@/pages/UserManagementPage.vue";
+import UserManagement from "@/pages/User/UserManagementPage.vue";
 import Setting from "@/pages/SettingPage.vue";
-import OrderManagement from "@/pages/OrderManagementPage.vue";
+import OrderManagement from "@/pages/Order/OrderManagementPage.vue";
 
 Vue.use(VueRouter);
 const routes: RouteConfig[] = [
@@ -40,6 +40,11 @@ const routes: RouteConfig[] = [
         path: "info",
         name: "routes.info",
         component: () => import("@/pages/NewsPage.vue"),
+      },
+      {
+        path: "/cart",
+        name: "routes.cart",
+        component: () => import("@/pages/Order/CartPage.vue"),
       },
     ],
   },
@@ -94,12 +99,17 @@ const routes: RouteConfig[] = [
   },
   {
     path: "/user/orders",
-    component: () => import("@/pages/User/OrdersPage.vue"),
+    component: () => import("@/pages/Order/OrdersHistoryPage.vue"),
   },
   {
     path: "/search",
     name: "SearchResults",
-    component: () => import("@/pages/SearchResults.vue"),
+    component: () => import("@/pages/Product/SearchResults.vue"),
+  },
+  {
+    path: "/checkout",
+    name: "CheckOutPage",
+    component: () => import("@/pages/Order/CheckOutPage.vue"),
   },
   {
     path: "*",
