@@ -69,89 +69,71 @@
 
 <script lang="ts">
 import Vue from "vue";
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  role: string;
-  createdAt: string;
-  active: boolean;
-}
+import { User } from "@/models/user";
+import UserService from "@/services/userService";
 
 export default Vue.extend({
-  name: "AdminUser",
+  name: "UserManagementPage",
   data() {
-    //todo API /admin/user
     return {
       activeTab: 0,
       searchCustomer: "",
       searchAdmin: "",
+      users: [] as User[],
       userHeaders: [
-        { text: "Họ tên", value: "name" },
+        { text: "Tên đăng nhập", value: "username" },
         { text: "Email", value: "email" },
-        { text: "Vai trò", value: "role" },
-        { text: "Ngày tạo", value: "createdAt" },
-        { text: "Trạng thái", value: "active" },
+        { text: "Họ tên", value: "name" },
+        { text: "Số điện thoại", value: "phone" },
+        { text: "Địa chỉ", value: "address" },
         { text: "Hành động", value: "actions", sortable: false },
       ],
-      users: [
-        {
-          id: 1,
-          name: "Nguyễn Văn A",
-          email: "a@example.com",
-          role: "Khách hàng",
-          createdAt: "2025-04-01",
-          active: true,
-        },
-        {
-          id: 2,
-          name: "Trần Thị B",
-          email: "b@example.com",
-          role: "Admin",
-          createdAt: "2025-03-28",
-          active: true,
-        },
-        {
-          id: 3,
-          name: "Lê Văn C",
-          email: "c@example.com",
-          role: "Nhân viên",
-          createdAt: "2025-03-20",
-          active: false,
-        },
-      ] as User[],
     };
   },
   computed: {
     filteredCustomers(): User[] {
       return this.users.filter(
         (u) =>
-          u.role === "Khách hàng" &&
-          (u.name.toLowerCase().includes(this.searchCustomer.toLowerCase()) ||
-            u.email.toLowerCase().includes(this.searchCustomer.toLowerCase()))
+          this.hasRole(u, "USER") &&
+          (u.name?.toLowerCase().includes(this.searchCustomer.toLowerCase()) ||
+            u.email?.toLowerCase().includes(this.searchCustomer.toLowerCase()))
       );
     },
     filteredAdmins(): User[] {
       return this.users.filter(
         (u) =>
-          (u.role === "Admin" || u.role === "Nhân viên") &&
-          (u.name.toLowerCase().includes(this.searchAdmin.toLowerCase()) ||
-            u.email.toLowerCase().includes(this.searchAdmin.toLowerCase()))
+          (this.hasRole(u, "ADMIN") || this.hasRole(u, "STAFF")) &&
+          (u.name?.toLowerCase().includes(this.searchAdmin.toLowerCase()) ||
+            u.email?.toLowerCase().includes(this.searchAdmin.toLowerCase()))
       );
     },
   },
   methods: {
+    async fetchUsers() {
+      try {
+        const response = await UserService.getAllUsers();
+        this.users = response;
+      } catch (error) {
+        console.error("Lỗi khi lấy danh sách user:", error);
+      }
+    },
+    hasRole(user: any, roleName: string): boolean {
+      return (
+        Array.isArray(user.roles) &&
+        user.roles.some((r: any) => r.roleName === roleName)
+      );
+    },
     editUser(user: User) {
       console.log("Chỉnh sửa:", user);
-      // TODO: Mở form chỉnh sửa
+      // TODO: mở form chỉnh sửa user
     },
     deactivateUser(user: User) {
       console.log("Vô hiệu hóa:", user);
-      // TODO: Gọi API vô hiệu hóa tài khoản
+      // TODO: gọi API để vô hiệu hóa user
     },
+  },
+  mounted() {
+    this.fetchUsers();
   },
 });
 </script>
-
-<style scoped></style>

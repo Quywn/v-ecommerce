@@ -4,6 +4,7 @@ import product from "./modules/product";
 import category from "./modules/category";
 import auth from "./modules/auth";
 import cart from "./modules/cart";
+import user from "./modules/user";
 // import order from "./modules/order";
 
 Vue.use(Vuex);
@@ -18,6 +19,7 @@ export default new Vuex.Store({
     category,
     auth,
     cart,
+    user,
     // order,
   },
 });

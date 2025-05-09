@@ -49,13 +49,13 @@ export default {
 
   // Xóa 1 sản phẩm khỏi giỏ hàng
   removeProductFromCart(
-    productName: string,
+    productCode: string,
     username: string
   ): Promise<string> {
     return axios
       .delete("/user/cart/product", {
         params: {
-          productName,
+          productCode,
           username,
         },
       })

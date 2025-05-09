@@ -46,6 +46,24 @@ const routes: RouteConfig[] = [
         name: "routes.cart",
         component: () => import("@/pages/Order/CartPage.vue"),
       },
+      {
+        path: "/checkout",
+        name: "routes.checkout",
+        component: () => import("@/pages/Order/CheckOutPage.vue"),
+      },
+      {
+        path: "/user/profile",
+        component: () => import("@/pages/User/ProfilePage.vue"),
+      },
+      {
+        path: "/user/orders",
+        component: () => import("@/pages/Order/OrdersHistoryPage.vue"),
+      },
+      {
+        path: "/search",
+        name: "SearchResults",
+        component: () => import("@/pages/Product/SearchResults.vue"),
+      },
     ],
   },
   {
@@ -92,24 +110,6 @@ const routes: RouteConfig[] = [
   {
     path: "/unauthorized",
     component: () => import("@/pages/Unauthorized.vue"),
-  },
-  {
-    path: "/user/profile",
-    component: () => import("@/pages/User/ProfilePage.vue"),
-  },
-  {
-    path: "/user/orders",
-    component: () => import("@/pages/Order/OrdersHistoryPage.vue"),
-  },
-  {
-    path: "/search",
-    name: "SearchResults",
-    component: () => import("@/pages/Product/SearchResults.vue"),
-  },
-  {
-    path: "/checkout",
-    name: "CheckOutPage",
-    component: () => import("@/pages/Order/CheckOutPage.vue"),
   },
   {
     path: "*",

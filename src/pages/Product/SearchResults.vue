@@ -17,7 +17,7 @@
         md="4"
       >
         <v-card>
-          <v-img :src="product.image" height="200px" />
+          <v-img :src="product.imageUrl" height="200px" />
           <v-card-title>{{ product.productName }}</v-card-title>
           <v-card-subtitle>{{ formatCurrency(product.price) }}</v-card-subtitle>
           <v-card-text>{{ product.description }}</v-card-text>

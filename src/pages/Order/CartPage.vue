@@ -112,7 +112,7 @@ export default class CartPage extends Vue {
 
   removeItem(productCode: string) {
     this.$store.dispatch("cart/removeProductFromCart", {
-      productName: productCode,
+      productCode: productCode,
       username: this.username,
     });
   }

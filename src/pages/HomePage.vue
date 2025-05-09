@@ -42,7 +42,7 @@
               class="product-image"
             ></v-img>
             <v-card-title class="text-truncate">{{
-              product.name
+              product.productName
             }}</v-card-title>
             <v-card-subtitle class="font-weight-bold">
               {{ formatCurrency(product.price) }}

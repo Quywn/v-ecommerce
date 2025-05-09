@@ -55,7 +55,6 @@ export default class CartModule extends VuexModule {
     username: string;
     quantity: number;
   }) {
-    // Gọi API
     await cartService.updateProductQuantity(
       payload.productCode,
       payload.username,
@@ -69,10 +68,10 @@ export default class CartModule extends VuexModule {
   @Action
   async removeProductFromCart(payload: {
     username: string;
-    productName: string;
+    productCode: string;
   }) {
     await cartService.removeProductFromCart(
-      payload.productName,
+      payload.productCode,
       payload.username
     );
     await this.context.dispatch("fetchCart", payload.username);

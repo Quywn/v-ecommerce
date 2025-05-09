@@ -13,16 +13,16 @@
             required
           />
           <v-text-field
-            v-model="password"
+            v-model="newPassword"
             label="Mật khẩu"
-            type="password"
+            type="newPassword"
             :rules="passwordRules"
             required
           />
           <v-text-field
             v-model="confirmPassword"
             label="Xác nhận mật khẩu"
-            type="password"
+            type="newPassword"
             :rules="confirmPasswordRules"
             required
           />
@@ -49,7 +49,7 @@ export default class Register extends Vue {
   valid = false;
   username = "";
   email = "";
-  password = "";
+  newPassword = "";
   confirmPassword = "";
 
   emailRules = [
@@ -66,19 +66,19 @@ export default class Register extends Vue {
     return [
       (v: string) => !!v || "Xác nhận mật khẩu không được để trống",
       (v: string) =>
-        v === this.password || "Mật khẩu xác nhận không khớp với mật khẩu",
+        v === this.newPassword || "Mật khẩu xác nhận không khớp với mật khẩu",
     ];
   }
 
   // Register
   async handleRegister() {
     if ((this.$refs.form as any).validate()) {
-      console.log("Đăng ký:", this.email, this.password);
+      console.log("Đăng ký:", this.email, this.newPassword);
       try {
         await axios.post("http://localhost:1234/register", {
           username: this.username,
           email: this.email,
-          password: this.password,
+          newPassword: this.newPassword,
         });
         alert("Đăng ký thành công!");
         this.$router.push("/login");
